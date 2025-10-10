@@ -1,5 +1,5 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h1>Bienvenido {{ Auth::user()->name }}</h1>
+    <h1>Ajustes del sistema</h1>
 @endsection

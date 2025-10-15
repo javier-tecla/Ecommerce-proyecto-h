@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <form action="">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -137,7 +137,8 @@
                                                 <span class="input-group-text align-items-start pt-2"><i
                                                         class="bi bi-currency-dollar"></i></span>
                                                 <select name="divisa" id="divisa" class="form-control">
-                                                    <option value=""disabled selected>-- Seleccione una divisa --</option>
+                                                    <option value=""disabled selected>-- Seleccione una divisa --
+                                                    </option>
                                                     @foreach ($divisas as $divisa)
                                                         <option value="{{ $divisa['symbol'] }}">
                                                             {{ $divisa['name'] }} ({{ $divisa['symbol'] }})
@@ -172,8 +173,67 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                imagenes
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="logo" class="form-label">Logo <sup
+                                                    class="text-danger">(*)</sup></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text align-items-start pt-2"><i
+                                                        class="bi bi-image"></i></span>
+                                                <input type="file" name="logo" id="logo" onchange="mostrarImagen(event)"
+                                                    class="form-control @error('logo') is-invalid @enderror"
+                                                    accept="image/*" required>{{ old('logo') }}
+                                                @error('logo')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <img src="" id="preview1" style="max-width: 200px; margin-top:10px" alt="">
+                                        <script>
+                                            const mostrarImagen = e =>
+                                                document.getElementById('preview1').src = URL.createObjectURL(e.target.files[0]);
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="imagen_login" class="form-label">Imagen de Login <sup
+                                                    class="text-danger">(*)</sup></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text align-items-start pt-2"><i
+                                                        class="bi bi-camera"></i></span>
+                                                <input type="file" name="imagen_login" id="imagen_login" onchange="mostrarImagen2(event)"
+                                                    class="form-control @error('imagen_login') is-invalid @enderror"
+                                                    accept="image/*" required>{{ old('imagen_login') }}
+                                                @error('imagen_login')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                         <img src="" id="preview2" style="max-width: 200px; margin-top:10px" alt="">
+                                        <script>
+                                            const mostrarImagen2 = e =>
+                                                document.getElementById('preview2').src = URL.createObjectURL(e.target.files[0]);
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i>
+                                        Guardar Cambios
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>

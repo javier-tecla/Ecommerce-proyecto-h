@@ -12,7 +12,9 @@ class AjusteController extends Controller
      */
     public function index()
     {
-        return view('admin.ajustes.index');
+        $jsonData = file_get_contents('https://api.hilariweb.com/divisas');
+        $divisas = json_decode($jsonData, true);
+        return view('admin.ajustes.index', compact('divisas'));
     }
 
     /**

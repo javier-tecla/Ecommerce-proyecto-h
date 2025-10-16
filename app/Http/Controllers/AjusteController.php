@@ -30,7 +30,33 @@ class AjusteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return response()->json($request->all());
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',
+            'sucursal' => 'required|string|max:255',
+            'direccion' => 'required|string',
+            'telefonos' => 'required|string|max:255',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'imagen_login' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'email' => 'required|email|max:255',
+            'divisa' => 'required|string|max:10',
+            'pagina_web' => 'nullable|url|max:255',
+        ]);
+
+        $ajuste = new Ajuste();
+        $ajuste->nombre = $request->nombre;
+        $ajuste->descripcion = $request->descripcion;
+        $ajuste->sucursal = $request->sucursal;
+        $ajuste->direccion = $request->direccion;
+        $ajuste->telefonos = $request->telefonos;
+        $ajuste->email = $request->email;
+        $ajuste->divisa = $request->divisa;
+        $ajuste->pagina_web = $request->pagina_web;
+
+        $ajuste->logo = $request->file('logo')->store('logos', 'public');
+        $ajuste->imagen_login = $request->file('imagen_login')->store('imagenes_login', 'public');
+        $ajuste->save();
     }
 
     /**

@@ -11,7 +11,8 @@
                     <h4>Configuraciones del sistema</h4>
                 </div>
                 <div class="card-body">
-                    <form action="">
+                    <form action="{{ url('/admin/ajustes/create')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="row">
@@ -78,7 +79,7 @@
                                                 <span class="input-group-text align-items-start pt-2"><i
                                                         class="bi bi-geo-alt"></i></span>
                                                 <textarea name="direccion" id="direccion" rows="1" class="form-control @error('direccion') is-invalid @enderror"
-                                                    placeholder="Calle, número, ciudad y país" value="" required>{{ old('direccion') }}</textarea>
+                                                    placeholder="Calle, número, ciudad y país" value="{{ old('telefonos') }}" required>{{ old('direccion') }}</textarea>
                                                 @error('direccion')
                                                     <div class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -98,8 +99,8 @@
                                                         class="bi bi-telephone"></i></span>
                                                 <input name="telefonos" id="telefonos" rows="1"
                                                     class="form-control @error('telefonos') is-invalid @enderror"
-                                                    placeholder="Ej: +549 1123456789" value=""
-                                                    required>{{ old('telefonos') }}
+                                                    placeholder="Ej: +549 1123456789" value="{{ old('telefonos') }}"
+                                                    required>
                                                 @error('telefonos')
                                                     <div class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -117,8 +118,8 @@
                                                         class="bi bi-envelope"></i></span>
                                                 <input name="email" id="email" rows="1"
                                                     class="form-control @error('email') is-invalid @enderror"
-                                                    placeholder="Ej: info@miempresa.com" value=""
-                                                    required>{{ old('email') }}
+                                                    placeholder="Ej: info@miempresa.com" value="{{ old('email') }}"
+                                                    required>
                                                 @error('email')
                                                     <div class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>

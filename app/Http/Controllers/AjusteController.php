@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ajuste;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AjusteController extends Controller
 {
@@ -12,9 +13,10 @@ class AjusteController extends Controller
      */
     public function index()
     {
+        $ajuste = Ajuste::first();
         $jsonData = file_get_contents('https://api.hilariweb.com/divisas');
         $divisas = json_decode($jsonData, true);
-        return view('admin.ajustes.index', compact('divisas'));
+        return view('admin.ajustes.index', compact('divisas','ajuste'));
     }
 
     /**
@@ -30,21 +32,33 @@ class AjusteController extends Controller
      */
     public function store(Request $request)
     {
+        $ajuste = Ajuste::first();
+
         // return response()->json($request->all());
-        $request->validate([
+        $rules = [
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:255',
             'sucursal' => 'required|string|max:255',
             'direccion' => 'required|string',
             'telefonos' => 'required|string|max:255',
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'imagen_login' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'email' => 'required|email|max:255',
             'divisa' => 'required|string|max:10',
             'pagina_web' => 'nullable|url|max:255',
-        ]);
+        ];
 
-        $ajuste = new Ajuste();
+        if ($ajuste) {
+            $rules['logo'] = 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+            $rules['imagen_login'] = 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+        }else{
+            $rules['logo'] = 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+            $rules['imagen_login'] = 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+        }
+        $request->validate($rules);
+
+        if(!$ajuste) {
+             $ajuste = new Ajuste();
+        }
+
         $ajuste->nombre = $request->nombre;
         $ajuste->descripcion = $request->descripcion;
         $ajuste->sucursal = $request->sucursal;
@@ -54,9 +68,23 @@ class AjusteController extends Controller
         $ajuste->divisa = $request->divisa;
         $ajuste->pagina_web = $request->pagina_web;
 
-        $ajuste->logo = $request->file('logo')->store('logos', 'public');
-        $ajuste->imagen_login = $request->file('imagen_login')->store('imagenes_login', 'public');
+        if ($request->hasFile('logo')) {
+            if ($ajuste->logo && Storage::disk('public')->exists($ajuste->logo)) {
+                Storage::disk('public')->delete($ajuste->logo);
+            }
+            $ajuste->logo = $request->file('logo')->store('logos', 'public');
+        }
+
+        if ($request->hasFile('imagen_login')) {
+            if ($ajuste->imagen_login && Storage::disk('public')->exists($ajuste->imagen_login)) {
+                Storage::disk('public')->delete($ajuste->imagen_login);
+            }
+            $ajuste->imagen_login = $request->file('imagen_login')->store('imagenes_login', 'public');
+        }
+
         $ajuste->save();
+
+        echo "datos guardados correctamente";
     }
 
     /**

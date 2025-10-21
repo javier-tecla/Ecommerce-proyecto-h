@@ -12,7 +12,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('admin.roles.index');
+        $roles = Role::paginate(5);
+        // return response()->json($roles);
+        return view('admin.roles.index', compact('roles'));
     }
 
     /**
@@ -34,11 +36,11 @@ class RoleController extends Controller
         ]);
 
         $rol = new Role();
-        $rol->name = $request->name;
+        $rol->name = strtoupper($request->name);
 
         $rol->save();
 
-        echo "se registro el rol correctamente";
+        return redirect()->route('admin.roles.index');
     }
 
     /**

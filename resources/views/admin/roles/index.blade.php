@@ -5,7 +5,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header flex">
                     <h4>Roles registrados
@@ -32,9 +32,9 @@
                                     <td style="text-align: center">{{ $nro++ }}</td>
                                     <td>{{ $role->name }}</td>
                                     <td class="text-center">
-                                        <a href="" class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Ver</a>
-                                        <a href="" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i> Editar</a>
-                                        <form action="" method="POST" style="display:inline-block;">
+                                        <a href="{{ url('/admin/rol/'.$role->id) }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Ver</a>
+                                        <a href="{{ url('/admin/rol/'.$role->id.'/edit') }}" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i> Editar</a>
+                                        <form action="{{ url('/admin/rol/'.$role->id) }}" method="POST" style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar ese rol?')">

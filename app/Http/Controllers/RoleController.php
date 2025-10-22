@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Composer;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -14,6 +13,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::paginate(5);
+
         // return response()->json($roles);
         return view('admin.roles.index', compact('roles'));
     }
@@ -36,12 +36,14 @@ class RoleController extends Controller
             'name' => 'required|string|max:255|unique:roles,name',
         ]);
 
-        $rol = new Role();
+        $rol = new Role;
         $rol->name = strtoupper($request->name);
 
         $rol->save();
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('admin.roles.index')
+            ->with('mensaje', 'Rol creado exitosamente')
+            ->with('icono', 'success');
     }
 
     /**
@@ -50,6 +52,7 @@ class RoleController extends Controller
     public function show($id)
     {
         $rol = Role::find($id);
+
         // return response()->json($rol);
         return view('admin.roles.show', compact('rol'));
     }
@@ -60,6 +63,7 @@ class RoleController extends Controller
     public function edit($id)
     {
         $rol = Role::find($id);
+
         return view('admin.roles.edit', compact('rol'));
     }
 
@@ -78,7 +82,9 @@ class RoleController extends Controller
 
         $rol->save();
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('admin.roles.index')
+            ->with('mensaje', 'Rol actualizado exitosamente')
+            ->with('icono', 'success');
     }
 
     /**
@@ -90,6 +96,8 @@ class RoleController extends Controller
         $rol = Role::find($id);
         $rol->delete();
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('admin.roles.index')
+            ->with('mensaje', 'Rol eliminado exitosamente')
+            ->with('icono', 'success');
     }
 }

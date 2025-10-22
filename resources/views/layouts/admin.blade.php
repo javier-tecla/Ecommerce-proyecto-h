@@ -21,6 +21,7 @@
 
 <body>
     <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div id="app">
         <div id="sidebar">
             <div class="sidebar-wrapper active">
@@ -90,7 +91,7 @@
 
                         <li class="sidebar-title">Ajustes</li>
 
-                         <li class="sidebar-item {{ request()->is('admin/ajuste*') ? 'active' : '' }}">
+                        <li class="sidebar-item {{ request()->is('admin/ajuste*') ? 'active' : '' }}">
                             <a href="{{ url('/admin/ajustes') }}" class='sidebar-link'>
                                 <i class="bi bi-gear-fill"></i>
                                 <span>Configuración</span>
@@ -167,8 +168,20 @@
 
 
     <!-- Need: Apexcharts -->
-    <script src="{{  url('/assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ url('/assets/static/js/pages/dashboard.js')}}"></script>
+    <script src="{{ url('/assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ url('/assets/static/js/pages/dashboard.js') }}"></script>
+
+    @if (($mensaje = Session::get('mensaje')) && ($icono = Session::get('icono')))
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "{{ $icono }}",
+                title: "{{ $mensaje }}",
+                showConfirmButton: false,
+                timer: 4000
+            });
+        </script>
+    @endif
 
 </body>
 

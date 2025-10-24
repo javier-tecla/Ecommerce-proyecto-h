@@ -87,6 +87,15 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-item {{ request()->is('admin/usuario*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/usuarios') }}" class='sidebar-link'>
+                                <i class="bi bi-person-fill-add"></i>
+                                <span>Usuarios</span>
+                            </a>
+                        </li>
+
+                        
+
 
 
                         <li class="sidebar-title">Ajustes</li>

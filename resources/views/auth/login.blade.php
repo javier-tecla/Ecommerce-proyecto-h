@@ -1,6 +1,6 @@
 @php
     $ajuste = \App\Models\Ajuste::first();
-    $imagen_login = 'storage/'.$ajuste->imagen_login;
+    $imagen_login = ($ajuste && !empty($ajuste->imagen_login)) ? 'storage/'.$ajuste->imagen_login : null;
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -30,12 +30,12 @@
                             @if ($ajuste)
                                 <img src="{{ asset('storage/'.$ajuste->logo) }}" style="width: 100px" alt="Logo">
                             @else
-                                <img src="./assets/compiled/svg/logo.svg" alt="Logo">
+                                <img src="./assets/compiled/svg/logo.svg" style="width: 150px" alt="Logo">
                             @endif
                             <br><br>
                         </a>
                     </div>
-                    <h1 class="auth-title">{{ $ajuste->nombre }}</h1>
+                    <h1 class="auth-title">{{ $ajuste->nombre ?? env('APP_NAME') }}</h1>
                     <p class="auth-subtitle mb-5">Ingreso al sistema</p>
 
                     <form method="POST" action="{{ route('login') }}">

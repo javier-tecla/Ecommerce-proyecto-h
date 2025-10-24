@@ -35,7 +35,7 @@
                                         <input type="email" name="email" id="email" class="form-control"
                                             value="{{ old('email') }}" placeholder="ejemplo@correo.com" required>
                                     </div>
-                                    @error('name')
+                                    @error('email')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -60,10 +60,10 @@
                                     <label for="password-confirm">Confirmar Contraseña<sup class="text-danger">(*)</sup></label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-shield-lock-fill"></i></span>
-                                        <input type="password" name="password-confirm" id="password-confirm" class="form-control"
+                                        <input type="password" name="password_confirmation" id="password-confirm" class="form-control"
                                              placeholder="Repita la contraseña" required>
                                     </div>
-                                    @error('password-confirm')
+                                    @error('password_confirmation')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>

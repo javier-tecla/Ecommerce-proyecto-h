@@ -4,15 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $usuarios = User::paginate(10);
+        $buscar = $request->get('buscar');
+        $query = User::query();
+        if ($buscar) {
+            $query->where('name', 'like', '%'.$buscar.'%')
+                ->orwhere('email', 'like', '%'.$buscar.'%');
+        }
+        $usuarios = $query->paginate(10);
         return view('admin.usuarios.index', compact('usuarios'));
     }
 
@@ -21,7 +28,8 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        return view('admin.usuarios.create');
+        $roles = Role::all();
+        return view('admin.usuarios.create', compact('roles'));
     }
 
     /**
@@ -31,16 +39,19 @@ class UsuarioController extends Controller
     {
         // return response()->json($request->all());
         $request->validate([
+            'rol' => 'required',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $usuario = new User();
+        $usuario = new User;
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->password = bcrypt($request->password);
         $usuario->save();
+
+        $usuario->assignRole($request->rol);
 
         return redirect()->route('admin.usuarios.index')
             ->with('mensaje', 'Usuario creado exitosamente')
@@ -51,9 +62,10 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $usuario = User::find($id);
+        return view('admin.usuarios.show', compact('usuario'));
     }
 
     /**

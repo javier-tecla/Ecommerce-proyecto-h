@@ -7,16 +7,28 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header flex">
+                <div class="card-header">
                     <h4>Usuarios registrados
                         <a href="{{ url('/admin/usuarios/create') }}" style="float:right" class="btn btn-primary"><i
                                 class="bi bi-plus"></i> Crear nuevo</a>
                     </h4>
-
                 </div>
-
                 <div class="card-body">
-                    <table class="table table-bordered table-hover table-striped table-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form action="{{ url('/admin/usuarios') }}" method="GET" class="mt-3">
+                                <div class="input-group">
+                                    <input type="text" name="buscar" class="form-control" placeholder="Buscar..." value="{{ $_REQUEST['buscar'] ?? '' }}">
+                                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button>
+                                    @if (isset($_REQUEST['buscar']))
+                                        <a href="{{ url('/admin/usuarios') }}" class="btn btn-success">
+                                        <i class="bi bi-trash"></i> Limpiar</a>
+                                    @endif
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
                                 <th>Nro</th>
@@ -33,7 +45,7 @@
                             @foreach ($usuarios as $usuario)
                                 <tr>
                                     <td style="text-align: center">{{ $nro++ }}</td>
-                                    <td>{{ $usuario->name }}</td>
+                                    <td>{{ $usuario->roles->pluck('name')->implode(', ') }}</td>
                                     <td>{{ $usuario->name }}</td>
                                     <td>{{ $usuario->email }}</td>
                                     <td class="text-center">
@@ -58,7 +70,8 @@
                     @if ($usuarios->hasPages())
                         <div class="d-flex justify-content-between align-items-center mt-4 px-3">
                             <div class="text-muted">
-                                Mostrando {{ $usuarios->firstItem() }} a {{ $usuarios->lastItem() }} de {{ $usuarios->total() }}
+                                Mostrando {{ $usuarios->firstItem() }} a {{ $usuarios->lastItem() }} de
+                                {{ $usuarios->total() }}
                                 registros
                             </div>
                             <div>
@@ -70,5 +83,4 @@
             </div>
         </div>
     </div>
-
 @endsection

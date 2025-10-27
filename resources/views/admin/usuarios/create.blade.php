@@ -14,6 +14,27 @@
                     <form action="{{ url('/admin/usuarios/create') }}" method="POST">
                         @csrf
                         <div class="row">
+                             <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="rol">Roles <sup class="text-danger">(*)</sup></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-people-fill"></i></span>
+                                        <select name="rol" id="rol" class="form-control" required>
+                                            <option value=""disabled selected>Seleccione un rol...</option>
+                                            @foreach ($roles as $rol)
+                                                @if (!($rol->name == 'SUPER ADMIN'))
+                                                <option value="{{ $rol->name }}" {{ old('rol') == $rol->name ? 'selected' : '' }}>{{ $rol->name }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('rol')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Nombre del usuario<sup class="text-danger">(*)</sup></label>

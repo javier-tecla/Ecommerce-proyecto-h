@@ -54,13 +54,34 @@
                                         <a href="{{ url('/admin/usuario/' . $usuario->id . '/edit') }}"
                                             class="btn btn-success btn-sm"><i class="bi bi-pencil"></i> Editar</a>
                                         <form action="{{ url('/admin/usuario/' . $usuario->id) }}" method="POST"
-                                            style="display:inline-block;">
+                                            id="miFormulario{{ $usuario->id }}" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('¿Estás seguro de que deseas eliminar ese rol?')">
-                                                <i class="bi bi-trash"></i> Eliminar</button>
+                                                onclick="preguntar{{ $usuario->id }}(event)">
+                                                <i class="bi bi-trash"></i> Eliminar
+                                            </button>
                                         </form>
+                                        <script>
+                                            function preguntar{{ $usuario->id }}(event) {
+                                                event.preventDefault();
+                                                swal.fire({
+                                                    title: '¿Desea eliminar este registro?',
+                                                    text: '',
+                                                    icon: 'question',
+                                                    showDenyButton: true,
+                                                    confirmButtonText: 'Eliminar',
+                                                    confirmButtonColor: '#a5161d',
+                                                    denyButtonColor: '#270a0a',
+                                                    denyButtonText: 'Cancelar',
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        // JavaScript puro para enviar el formulario
+                                                        document.getElementById('miFormulario{{ $usuario->id }}').submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
                                     </td>
                                 </tr>
                             @endforeach

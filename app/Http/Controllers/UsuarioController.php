@@ -14,7 +14,10 @@ class UsuarioController extends Controller
     public function index(Request $request)
     {
         $buscar = $request->get('buscar');
-        $query = User::query();
+        $query = User::whereDoesntHave('roles', function ($q) {
+            $q->where('name', 'SUPER ADMIN');
+        })->withTrashed();
+
         if ($buscar) {
             $query->where('name', 'like', '%'.$buscar.'%')
                 ->orwhere('email', 'like', '%'.$buscar.'%');
@@ -118,5 +121,17 @@ class UsuarioController extends Controller
         return redirect()->route('admin.usuarios.index')
         ->with('mensaje', 'Usuario eliminado exitosamente')
         ->with('icono', 'success');
+    }
+
+    public function restore($id)
+    {
+        $usuario = User::withTrashed()->find($id);
+        $usuario->restore();
+        $usuario->estado = true;
+        $usuario->save();
+
+        return redirect()->route('admin.usuarios.index')
+            ->with('mensaje', 'Usuario restaurado exitosamente')
+            ->with('icono', 'success');
     }
 }

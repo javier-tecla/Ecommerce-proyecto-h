@@ -94,6 +94,13 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-item {{ request()->is('admin/categoria*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/categorias') }}" class='sidebar-link'>
+                                <i class="bi bi-tags"></i>
+                                <span>Categorías</span>
+                            </a>
+                        </li>
+
                         
 
 

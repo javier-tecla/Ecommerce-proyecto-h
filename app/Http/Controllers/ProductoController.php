@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -10,9 +11,20 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $buscar = $request->get('buscar');
+        $query = Producto::query();
+
+        if ($buscar) {
+            $query->where('nombre', 'like', '%'.$buscar.'%')
+                ->orwhere('codigo', 'like', '%'.$buscar.'%')
+                ->orwhere('descripcion_corta', 'like', '%'.$buscar.'%')
+                ->orwhere('descripcion_larga', 'like', '%'.$buscar.'%');
+        }
+        $productos = $query->paginate(10);
+        return view('admin.productos.index', compact('productos'));
+
     }
 
     /**
@@ -20,7 +32,8 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        //
+        $categorias = Categoria::all();
+        return view('admin.productos.create', compact('categorias'));
     }
 
     /**

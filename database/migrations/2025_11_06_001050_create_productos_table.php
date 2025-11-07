@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('descripcion_larga');
             $table->decimal('precio_compra', 10, 2);
             $table->decimal('precio_venta', 10, 2);
+            $table->string('stock');
             $table->timestamps();
         });
     }

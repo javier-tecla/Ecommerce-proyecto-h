@@ -64,6 +64,10 @@
                                         <div class="d-flex justify-content-center gap-1">
                                             <a href="{{ url('/admin/producto/' . $producto->id) }}"
                                                 class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Ver</a>
+
+                                            <a href="{{ url('/admin/producto/' . $producto->id.'/imagenes') }}"
+                                                class="btn btn-warning btn-sm"><i class="bi bi-images"></i> Imágenes</a>
+                                                
                                             <a href="{{ url('/admin/producto/' . $producto->id . '/edit') }}"
                                                 class="btn btn-success btn-sm"><i class="bi bi-pencil"></i> Editar</a>
                                                 <button type="submit" class="btn btn-danger btn-sm"

@@ -58,7 +58,7 @@
                                                 class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Ver</a>
                                             <a href="{{ url('/admin/categoria/' . $categoria->id . '/edit') }}"
                                                 class="btn btn-success btn-sm"><i class="bi bi-pencil"></i> Editar</a>
-                                                <button type="submit" class="btn btn-danger btn-sm"
+                                            <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="preguntar{{ $categoria->id }}(event)">
                                                 <i class="bi bi-trash"></i> Eliminar
                                             </button>
@@ -69,7 +69,7 @@
                                             id="miFormulario{{ $categoria->id }}" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            
+
                                         </form>
                                         <script>
                                             function preguntar{{ $categoria->id }}(event) {

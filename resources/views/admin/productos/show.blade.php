@@ -89,7 +89,16 @@
                         <h4>Imagenes del producto</h4>
                     </div>
                     <div class="card-body">
-
+                        <div class="row">
+                            @foreach ($producto->imagenes as $imagen)
+                                <div class="col-md-3" style="margin-bottom: 20px;">
+                                    <div class="card">
+                                        <img src="{{ asset('storage/' . $imagen->imagen) }}" class="card-img-top"
+                                            alt="Imagen del producto">
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

@@ -51,7 +51,7 @@
                             @foreach ($productos as $producto)
                                 <tr>
                                     <td style="text-align: center">{{ $nro++ }}</td>
-                                    <td>{{ $producto->categoria_id }}</td>
+                                    <td>{{ $producto->categoria->nombre }}</td>
                                     <td>{{ $producto->nombre }}</td>
                                     <td>{{ $producto->codigo }}</td>
                                     <td>{{ $producto->descripcion_corta }}</td>

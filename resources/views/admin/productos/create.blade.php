@@ -138,7 +138,7 @@
                                             <div class="input-group">
                                                 <div style="width: 100%">
                                                     <textarea name="descripcion_larga" id="descripcion_larga" class="form-control ckeditor" rows="2"
-                                                        placeholder="Descripción detallada del producto (máx. 255 caracteres)" required>{{ old('descripcion_larga') }}</textarea>
+                                                        placeholder="Descripción detallada del producto (máx. 255 caracteres)">{{ old('descripcion_larga') }}</textarea>
                                                 </div>
                                             </div>
                                             @error('descripcion_larga')

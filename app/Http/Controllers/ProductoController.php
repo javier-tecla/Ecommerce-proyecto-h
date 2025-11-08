@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Producto;
 use App\Models\Categoria;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -23,6 +23,7 @@ class ProductoController extends Controller
                 ->orwhere('descripcion_larga', 'like', '%'.$buscar.'%');
         }
         $productos = $query->paginate(10);
+
         return view('admin.productos.index', compact('productos'));
 
     }
@@ -33,6 +34,7 @@ class ProductoController extends Controller
     public function create()
     {
         $categorias = Categoria::all();
+
         return view('admin.productos.create', compact('categorias'));
     }
 
@@ -41,15 +43,42 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return response()->json($request->all());
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'codigo' => 'required|string|max:100|unique:productos,codigo',
+            'descripcion_corta' => 'required|string|max:500',
+            'descripcion_larga' => 'required|string',
+            'precio_compra' => 'required|numeric|min:0',
+            'precio_venta' => 'required|numeric|min:0',
+            'stock' => 'required|numeric|min:0',
+            'categoria_id' => 'required|exists:categorias,id',
+        ]);
+
+        $producto = new Producto;
+        $producto->nombre = $request->nombre;
+        $producto->codigo = $request->codigo;
+        $producto->descripcion_corta = $request->descripcion_corta;
+        $producto->descripcion_larga = $request->descripcion_larga;
+        $producto->precio_compra = $request->precio_compra;
+        $producto->precio_venta = $request->precio_venta;
+        $producto->stock = $request->stock;
+        $producto->categoria_id = $request->categoria_id;
+        $producto->save();
+
+        return redirect()->route('admin.productos.index')
+            ->with('mensaje', 'Producto creado exitosamente')
+            ->with('icono', 'success');
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Producto $producto)
+    public function show($id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        return view('admin.productos.show', compact('producto'));
     }
 
     /**

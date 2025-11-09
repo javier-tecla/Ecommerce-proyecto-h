@@ -55,9 +55,9 @@
                                     <td>{{ $producto->nombre }}</td>
                                     <td>{{ $producto->codigo }}</td>
                                     <td>{{ $producto->descripcion_corta }}</td>
-                                    <td>{{ $producto->precio_compra }}</td>
-                                    <td>{{ $producto->precio_venta }}</td>
-                                    <td>{{ $producto->stock }}</td>
+                                    <td>{{ $ajuste->divisa." ".$producto->precio_compra }}</td>
+                                    <td>{{ $ajuste->divisa." ".$producto->precio_venta }}</td>
+                                    <td style="text-align: center">{{ $producto->stock }}</td>
 
                                     <td class="text-center">
 
@@ -65,12 +65,12 @@
                                             <a href="{{ url('/admin/producto/' . $producto->id) }}"
                                                 class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Ver</a>
 
-                                            <a href="{{ url('/admin/producto/' . $producto->id.'/imagenes') }}"
+                                            <a href="{{ url('/admin/producto/' . $producto->id . '/imagenes') }}"
                                                 class="btn btn-warning btn-sm"><i class="bi bi-images"></i> Imágenes</a>
-                                                
+
                                             <a href="{{ url('/admin/producto/' . $producto->id . '/edit') }}"
                                                 class="btn btn-success btn-sm"><i class="bi bi-pencil"></i> Editar</a>
-                                                <button type="submit" class="btn btn-danger btn-sm"
+                                            <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="preguntar{{ $producto->id }}(event)">
                                                 <i class="bi bi-trash"></i> Eliminar
                                             </button>
@@ -81,7 +81,7 @@
                                             id="miFormulario{{ $producto->id }}" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            
+
                                         </form>
                                         <script>
                                             function preguntar{{ $producto->id }}(event) {

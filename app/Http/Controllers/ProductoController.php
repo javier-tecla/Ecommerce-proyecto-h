@@ -94,7 +94,7 @@ class ProductoController extends Controller
     public function upload_imagen(Request $request, $id)
     {
         $request->validate([
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,webp,gif|max:2048',
         ]);
 
         $producto = Producto::findOrFail($id);
@@ -186,5 +186,12 @@ class ProductoController extends Controller
         return redirect()->route('admin.productos.index')
             ->with('mensaje', 'Producto eliminado exitosamente')
             ->with('icono', 'success');
+    }
+
+    public function detalle_producto($id)
+    {
+        $ajuste = Ajuste::first();
+        $producto = Producto::findOrFail($id);
+        return view('web.detalle_producto', compact('ajuste', 'producto'));
     }
 }

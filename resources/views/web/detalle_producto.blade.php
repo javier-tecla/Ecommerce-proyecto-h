@@ -4,11 +4,11 @@
     <!-- Page Title -->
     <div class="page-title light-background">
         <div class="container d-lg-flex justify-content-between align-items-center">
-            <h1 class="mb-2 mb-lg-0">Product Details</h1>
+            <h1 class="mb-2 mb-lg-0">Detalle del producto: {{ $producto->nombre }}</h1>
             <nav class="breadcrumbs">
                 <ol>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="current">Product Details</li>
+                    <li><a href="/">Home</a></li>
+                    <li class="current">Detalles del producto</li>
                 </ol>
             </nav>
         </div>
@@ -25,9 +25,13 @@
                     <div class="product-gallery">
                         <div class="main-showcase">
                             <div class="image-zoom-container">
-                                <img src="assets/img/product/product-details-6.webp" alt="Product Main"
+                                @php
+                                    $imagen_producto = $producto->imagenes->first();
+                                    $imagen = $imagen_producto->imagen ?? '';
+                                @endphp
+                                <img src="{{ asset('storage/' . $imagen) }}" alt="Product Main"
                                     class="img-fluid main-product-image drift-zoom" id="main-product-image"
-                                    data-zoom="assets/img/product/product-details-6.webp">
+                                    data-zoom="{{ asset('storage/' . $imagen) }}">
 
                                 <div class="image-navigation">
                                     <button class="nav-arrow prev-image image-nav-btn prev-image" type="button">
@@ -41,30 +45,15 @@
                         </div>
 
                         <div class="thumbnail-grid">
-                            <div class="thumbnail-wrapper thumbnail-item active"
-                                data-image="assets/img/product/product-details-6.webp">
-                                <img src="assets/img/product/product-details-6.webp" alt="View 1" class="img-fluid">
-                            </div>
-                            <div class="thumbnail-wrapper thumbnail-item"
-                                data-image="assets/img/product/product-details-7.webp">
-                                <img src="assets/img/product/product-details-7.webp" alt="View 2" class="img-fluid">
-                            </div>
-                            <div class="thumbnail-wrapper thumbnail-item"
-                                data-image="assets/img/product/product-details-8.webp">
-                                <img src="assets/img/product/product-details-8.webp" alt="View 3" class="img-fluid">
-                            </div>
-                            <div class="thumbnail-wrapper thumbnail-item"
-                                data-image="assets/img/product/product-details-4.webp">
-                                <img src="assets/img/product/product-details-4.webp" alt="View 4" class="img-fluid">
-                            </div>
-                            <div class="thumbnail-wrapper thumbnail-item"
-                                data-image="assets/img/product/product-details-5.webp">
-                                <img src="assets/img/product/product-details-5.webp" alt="View 5" class="img-fluid">
-                            </div>
-                            <div class="thumbnail-wrapper thumbnail-item"
-                                data-image="assets/img/product/product-details-3.webp">
-                                <img src="assets/img/product/product-details-3.webp" alt="View 6" class="img-fluid">
-                            </div>
+
+                            @foreach ($producto->imagenes as $item)
+                                <div class="thumbnail-wrapper thumbnail-item {{ $loop->first ? 'active' : '' }}"
+                                    data-image="{{ asset('storage/' . $item->imagen) }}">
+                                    <img src="{{ asset('storage/' . $item->imagen) }}" alt="view {{ $loop->iteration }}" alt="Produt Thumbnail">
+                                </div>
+                            @endforeach
+
+                            
                         </div>
                     </div>
                 </div>
@@ -73,7 +62,7 @@
                 <div class="col-lg-5" data-aos="fade-left" data-aos-delay="200">
                     <div class="product-details">
                         <div class="product-badge-container">
-                            <span class="badge-category">Audio Equipment</span>
+                            <span class="badge-category">{{ $producto->categoria->nombre }}</span>
                             <div class="rating-group">
                                 <div class="stars">
                                     <i class="bi bi-star-fill"></i>
@@ -86,70 +75,33 @@
                             </div>
                         </div>
 
-                        <h1 class="product-name">Mauris tempus cursus magna vel scelerisque nisl consectetur</h1>
+                        <h1 class="product-name">{{ $producto->nombre }}</h1>
 
                         <div class="pricing-section">
                             <div class="price-display">
-                                <span class="sale-price">$189.99</span>
+                                <span class="sale-price">{{ $ajuste->divisa." ".$producto->precio_venta }}</span>
                                 <span class="regular-price">$239.99</span>
                             </div>
                             <div class="savings-info">
-                                <span class="save-amount">Save $50.00</span>
-                                <span class="discount-percent">(21% off)</span>
+                                <span class="discount-percent">{{ $producto->stock }} disponibles</span>
                             </div>
                         </div>
 
                         <div class="product-description">
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-                                architecto beatae vitae dicta sunt explicabo.</p>
-                        </div>
-
-                        <div class="availability-status">
-                            <div class="stock-indicator">
-                                <i class="bi bi-check-circle-fill"></i>
-                                <span class="stock-text">Available</span>
-                            </div>
-                            <div class="quantity-left">Only 18 items remaining</div>
-                        </div>
-
-                        <!-- Product Variants -->
-                        <div class="variant-section">
-                            <div class="color-selection">
-                                <label class="variant-label">Available Colors:</label>
-                                <div class="color-grid">
-                                    <div class="color-chip active" data-color="Midnight Black"
-                                        style="background: linear-gradient(135deg, #1a1a1a, #000);">
-                                        <span class="selection-check"><i class="bi bi-check"></i></span>
-                                    </div>
-                                    <div class="color-chip" data-color="Pearl White"
-                                        style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
-                                        <span class="selection-check"><i class="bi bi-check"></i></span>
-                                    </div>
-                                    <div class="color-chip" data-color="Ocean Blue"
-                                        style="background: linear-gradient(135deg, #0066cc, #004499);">
-                                        <span class="selection-check"><i class="bi bi-check"></i></span>
-                                    </div>
-                                    <div class="color-chip" data-color="Forest Green"
-                                        style="background: linear-gradient(135deg, #28a745, #155724);">
-                                        <span class="selection-check"><i class="bi bi-check"></i></span>
-                                    </div>
-                                </div>
-                                <div class="selected-variant">Selected: <span>Midnight Black</span></div>
-                            </div>
+                            <p>{{ $producto->descripcion_corta }}</p>
                         </div>
 
                         <!-- Purchase Options -->
                         <div class="purchase-section">
                             <div class="quantity-control">
-                                <label class="control-label">Quantity:</label>
+                                <label class="control-label">Cantidad:</label>
                                 <div class="quantity-input-group">
                                     <div class="quantity-selector">
                                         <button class="quantity-btn decrease" type="button">
                                             <i class="bi bi-dash"></i>
                                         </button>
                                         <input type="number" class="quantity-input" value="1" min="1"
-                                            max="18">
+                                            max="{{ $producto->stock }}">
                                         <button class="quantity-btn increase" type="button">
                                             <i class="bi bi-plus"></i>
                                         </button>
@@ -160,11 +112,7 @@
                             <div class="action-buttons">
                                 <button class="btn primary-action">
                                     <i class="bi bi-bag-plus"></i>
-                                    Add to Cart
-                                </button>
-                                <button class="btn secondary-action">
-                                    <i class="bi bi-lightning"></i>
-                                    Buy Now
+                                    Agregar al carrito
                                 </button>
                                 <button class="btn icon-action" title="Add to Wishlist">
                                     <i class="bi bi-heart"></i>
@@ -176,19 +124,19 @@
                         <div class="benefits-list">
                             <div class="benefit-item">
                                 <i class="bi bi-truck"></i>
-                                <span>Free delivery on orders over $75</span>
+                                <span>Envío gratuito en pedidos superiores a 100.000 pesos.</span>
                             </div>
                             <div class="benefit-item">
                                 <i class="bi bi-arrow-clockwise"></i>
-                                <span>45-day hassle-free returns</span>
+                                <span>Devoluciones sin complicaciones en 45 días</span>
                             </div>
                             <div class="benefit-item">
                                 <i class="bi bi-shield-check"></i>
-                                <span>3-year manufacturer warranty</span>
+                                <span>Garantía del fabricante de 6 meses</span>
                             </div>
                             <div class="benefit-item">
                                 <i class="bi bi-headset"></i>
-                                <span>24/7 customer support available</span>
+                                <span>Soporte al cliente disponible las 24 horas, los 7 días de la semana.</span>
                             </div>
                         </div>
                     </div>
@@ -201,12 +149,11 @@
                     <div class="info-tabs-container">
                         <nav class="tabs-navigation nav">
                             <button class="nav-link active" data-bs-toggle="tab"
-                                data-bs-target="#ecommerce-product-details-5-overview" type="button">Overview</button>
+                                data-bs-target="#ecommerce-product-details-5-overview" type="button">Descripción general</button>
                             <button class="nav-link" data-bs-toggle="tab"
-                                data-bs-target="#ecommerce-product-details-5-technical" type="button">Technical
-                                Details</button>
+                                data-bs-target="#ecommerce-product-details-5-technical" type="button">Detalles técnicos</button>
                             <button class="nav-link" data-bs-toggle="tab"
-                                data-bs-target="#ecommerce-product-details-5-customer-reviews" type="button">Reviews
+                                data-bs-target="#ecommerce-product-details-5-customer-reviews" type="button">Reseñas
                                 (127)</button>
                         </nav>
 
@@ -217,34 +164,8 @@
                                     <div class="row g-4">
                                         <div class="col-lg-8">
                                             <div class="content-section">
-                                                <h3>Product Overview</h3>
-                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
-                                                    fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem
-                                                    sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                                    sit amet, consectetur, adipisci velit.</p>
-
-                                                <h4>Key Highlights</h4>
-                                                <div class="highlights-grid">
-                                                    <div class="highlight-card">
-                                                        <i class="bi bi-volume-up"></i>
-                                                        <h5>Superior Audio</h5>
-                                                        <p>Ut enim ad minima veniam quis nostrum exercitationem</p>
-                                                    </div>
-                                                    <div class="highlight-card">
-                                                        <i class="bi bi-battery-charging"></i>
-                                                        <h5>Long Battery</h5>
-                                                        <p>Excepteur sint occaecat cupidatat non proident</p>
-                                                    </div>
-                                                    <div class="highlight-card">
-                                                        <i class="bi bi-wifi"></i>
-                                                        <h5>Wireless Tech</h5>
-                                                        <p>Duis aute irure dolor in reprehenderit in voluptate</p>
-                                                    </div>
-                                                    <div class="highlight-card">
-                                                        <i class="bi bi-person-check"></i>
-                                                        <h5>Comfort Fit</h5>
-                                                        <p>Lorem ipsum dolor sit amet consectetur adipiscing</p>
-                                                    </div>
+                                                <div>
+                                                {!! $producto->descripcion_larga !!}
                                                 </div>
                                             </div>
                                         </div>

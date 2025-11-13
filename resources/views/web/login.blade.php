@@ -30,22 +30,31 @@
                                 <p>Inicia sesión en tu cuenta</p>
                             </div>
 
+                            {{-- Mostrar mensaje de error de autenticación --}}
+                            @if ($errors->has('login_error'))
+                                <div class="input-group mb-3">
+                                    <div class="form-control text-center text-white bg-danger border border-danger">
+                                        {{ $errors->first('login_error') }}
+                                    </div>
+                                </div>
+                            @endif
+
                             <form action="{{ url('/web/login') }}" method="POST" class="auth-form-content">
                                 @csrf
                                 <div class="input-group mb-3">
                                     <span class="input-icon">
                                         <i class="bi bi-envelope"></i>
                                     </span>
-                                    <input type="email" name="email" class="form-control" placeholder="Dirección de correo electrónico"
-                                        required="" autocomplete="email">
+                                    <input type="email" name="email" class="form-control"
+                                        placeholder="Dirección de correo electrónico" required="" autocomplete="email">
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <span class="input-icon">
                                         <i class="bi bi-lock"></i>
                                     </span>
-                                    <input type="password" name="password" class="form-control" placeholder="Contraseña" required=""
-                                        autocomplete="current-password">
+                                    <input type="password" name="password" class="form-control" placeholder="Contraseña"
+                                        required="" autocomplete="current-password">
                                     <span class="password-toggle">
                                         <i class="bi bi-eye"></i>
                                     </span>
@@ -75,8 +84,8 @@
 
                                 <div class="switch-form">
                                     <span>¿No tienes una cuenta? </span>
-                                    <button type="button" class="switch-btn" data-target="register">Crear una
-                                        cuenta</button>
+                                    <a href="{{ url('/web/registro') }}" type="button" class="switch-btn" data-target="register">Crear una
+                                        cuenta</a>
                                 </div>
                             </form>
                         </div>

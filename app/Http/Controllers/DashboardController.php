@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Ajuste;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,5 +45,35 @@ class DashboardController extends Controller
             // Autentificacion fallida
             return redirect('/web/login')->withErrors(['login_error' => 'Credenciales inválidas']);
         }
+    }
+
+    public function registro()
+    {
+        $ajuste = Ajuste::first();
+        return view('web.registro', compact('ajuste'));
+    }
+
+    public function crear_cuenta(Request $request)
+    {
+        // return response()->json($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+
+        $user->assignRole('CLIENTE');
+
+        // Iniciar sesión automaticamente después del registro
+        Auth::login($user);
+
+        return redirect('/dashboard');
+        
     }
 }

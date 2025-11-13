@@ -59,7 +59,12 @@ class CategoriaController extends Controller
      */
     public function show($id)
     {
-        $categoria = Categoria::findOrFail($id);
+        $categoria = Categoria::find($id);
+
+        if (!$categoria) {
+        return response()->view('errors.404-admin', [], 404);
+    }
+
         return view('admin.categorias.show', compact('categoria'));
     }
 

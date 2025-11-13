@@ -81,7 +81,12 @@ class ProductoController extends Controller
      */
     public function show($id)
     {
-        $producto = Producto::findOrFail($id);
+        $producto = Producto::find($id);
+
+        if (!$producto) {
+        return response()->view('errors.404-admin', [], 404);
+    }
+
         return view('admin.productos.show', compact('producto'));
     }
 

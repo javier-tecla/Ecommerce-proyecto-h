@@ -64,6 +64,18 @@ Route::post('/web/login', [App\Http\Controllers\DashboardController::class, 'aut
 Route::get('/web/registro', [App\Http\Controllers\DashboardController::class, 'registro'])->name('web.registro');
 Route::post('/web/registro', [App\Http\Controllers\DashboardController::class, 'crear_cuenta'])->name('web.crear_cuenta');
 
+Route::fallback(function () {
+    // Verificar si la URL solicitada comienza con '/admin'
+    if (request()->is('admin*')) {
+        // 404 para el area de administración
+        //Asegurate que esta vista exista: resources/views/errors/404-admin.blade.php
+        return response()->view('errors.404-admin', [], 404);
+    }
+
+        // 404 para la web pública
+        // Asegúrate que esta vista exista: resources/viewa/errors/404.blade.php
+        return response()->view('errors.404', [], 404);
+});
 
 
 

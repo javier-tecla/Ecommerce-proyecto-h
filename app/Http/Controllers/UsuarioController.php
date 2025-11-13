@@ -68,6 +68,11 @@ class UsuarioController extends Controller
     public function show($id)
     {
         $usuario = User::find($id);
+
+        if (!$usuario) {
+        return response()->view('errors.404-admin', [], 404);
+    }
+    
         return view('admin.usuarios.show', compact('usuario'));
     }
 

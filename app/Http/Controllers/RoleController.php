@@ -53,6 +53,10 @@ class RoleController extends Controller
     {
         $rol = Role::find($id);
 
+        if (!$rol) {
+        return response()->view('errors.404-admin', [], 404);
+    }
+
         // return response()->json($rol);
         return view('admin.roles.show', compact('rol'));
     }

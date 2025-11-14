@@ -63,6 +63,9 @@ Route::get('/web/login', [App\Http\Controllers\DashboardController::class, 'logi
 Route::post('/web/login', [App\Http\Controllers\DashboardController::class, 'autenticacion'])->name('web.autenticacion');
 Route::get('/web/registro', [App\Http\Controllers\DashboardController::class, 'registro'])->name('web.registro');
 Route::post('/web/registro', [App\Http\Controllers\DashboardController::class, 'crear_cuenta'])->name('web.crear_cuenta');
+Route::get('/buscar', [App\Http\Controllers\WebController::class, 'buscar_producto'])->name('web.buscar_producto');
+
+
 
 Route::fallback(function () {
     // Verificar si la URL solicitada comienza con '/admin'

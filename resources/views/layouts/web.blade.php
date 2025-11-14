@@ -70,9 +70,9 @@
                     </a>
 
                     <!-- Search -->
-                    <form class="search-form desktop-search-form">
+                    <form class="search-form desktop-search-form" method="GET" action="{{ url('/buscar') }}">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Buscador de productos...">
+                            <input type="text" class="form-control" value="{{ $query ?? '' }}" name="producto" placeholder="Buscador de productos...">
                             <button class="btn" type="submit">
                                 <i class="bi bi-search"></i>
                             </button>

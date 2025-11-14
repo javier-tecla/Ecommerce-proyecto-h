@@ -33,6 +33,8 @@
     <!-- Main CSS File -->
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- =======================================================
   * Template Name: NiceShop
   * Template URL: https://bootstrapmade.com/niceshop-bootstrap-ecommerce-template/
@@ -72,7 +74,8 @@
                     <!-- Search -->
                     <form class="search-form desktop-search-form" method="GET" action="{{ url('/buscar') }}">
                         <div class="input-group">
-                            <input type="text" class="form-control" value="{{ $query ?? '' }}" name="producto" placeholder="Buscador de productos...">
+                            <input type="text" class="form-control" value="{{ $query ?? '' }}" name="producto"
+                                placeholder="Buscador de productos...">
                             <button class="btn" type="submit">
                                 <i class="bi bi-search"></i>
                             </button>
@@ -109,9 +112,10 @@
                                             <i class="bi bi-bag-check me-2"></i>
                                             <span>Mis pedidos</span>
                                         </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="account.html">
+                                        <a class="dropdown-item d-flex align-items-center"
+                                            href="{{ url('/favoritos') }}">
                                             <i class="bi bi-heart me-2"></i>
-                                            <span>Mi lista de deseos</span>
+                                            <span>Mis favoritos</span>
                                         </a>
                                         <a class="dropdown-item d-flex align-items-center" href="account.html">
                                             <i class="bi bi-gear me-2"></i>
@@ -140,9 +144,14 @@
                         </div>
 
                         <!-- Wishlist -->
-                        <a href="account.html" class="header-action-btn d-none d-md-block">
+                        <a href="{{ url('/favoritos') }}" class="header-action-btn d-none d-md-block">
                             <i class="bi bi-heart"></i>
-                            <span class="badge">0</span>
+                            @php
+                                if(Auth::check()){
+                                    $cantidad_favoritos = \App\Models\ProductoFavorito::where('usuario_id', Auth::id())->count();
+                                }
+                            @endphp
+                            <span class="badge">{{  $cantidad_favoritos ?? '' }}</span>
                         </a>
 
                         <!-- Cart -->
@@ -981,6 +990,18 @@
 
     <!-- Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+
+    @if (($mensaje = Session::get('mensaje')) && ($icono = Session::get('icono')))
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "{{ $icono }}",
+                title: "{{ $mensaje }}",
+                showConfirmButton: false,
+                timer: 4000
+            });
+        </script>
+    @endif
 
 </body>
 

@@ -28,3 +28,22 @@ imagen varchar
 created_at timestamp
 updated_at timestamp
 }
+
+Table usuarios {
+    id int [pk, increment]
+    nombre varchar
+    email varchar [unique]
+    password varchar
+    created_at timestamp
+    updated_at timestamp
+}
+
+Table productos_favoritos {
+    id int [pk, increment]
+
+    usuario_id int [ref: > usuarios.id]
+    producto_id int [ref: > productos.id]
+
+    created_at timestamp
+    updated_at timestamp
+}

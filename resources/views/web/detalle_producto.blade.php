@@ -49,11 +49,12 @@
                             @foreach ($producto->imagenes as $item)
                                 <div class="thumbnail-wrapper thumbnail-item {{ $loop->first ? 'active' : '' }}"
                                     data-image="{{ asset('storage/' . $item->imagen) }}">
-                                    <img src="{{ asset('storage/' . $item->imagen) }}" alt="view {{ $loop->iteration }}" alt="Produt Thumbnail">
+                                    <img src="{{ asset('storage/' . $item->imagen) }}" alt="view {{ $loop->iteration }}"
+                                        alt="Produt Thumbnail">
                                 </div>
                             @endforeach
 
-                            
+
                         </div>
                     </div>
                 </div>
@@ -79,7 +80,7 @@
 
                         <div class="pricing-section">
                             <div class="price-display">
-                                <span class="sale-price">{{ $ajuste->divisa." ".$producto->precio_venta }}</span>
+                                <span class="sale-price">{{ $ajuste->divisa . ' ' . $producto->precio_venta }}</span>
                                 <span class="regular-price">$239.99</span>
                             </div>
                             <div class="savings-info">
@@ -114,9 +115,13 @@
                                     <i class="bi bi-bag-plus"></i>
                                     Agregar al carrito
                                 </a>
-                                <a href="{{ url('/dashboard') }}" class="btn icon-action" title="Add to Wishlist">
-                                    <i class="bi bi-heart"></i>
-                                </a>
+                                <form action="{{ url('/favoritos') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                                    <button type="submit" class="btn icon-action">
+                                        <i class="bi bi-heart"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
 
@@ -149,9 +154,11 @@
                     <div class="info-tabs-container">
                         <nav class="tabs-navigation nav">
                             <button class="nav-link active" data-bs-toggle="tab"
-                                data-bs-target="#ecommerce-product-details-5-overview" type="button">Descripción general</button>
+                                data-bs-target="#ecommerce-product-details-5-overview" type="button">Descripción
+                                general</button>
                             <button class="nav-link" data-bs-toggle="tab"
-                                data-bs-target="#ecommerce-product-details-5-technical" type="button">Detalles técnicos</button>
+                                data-bs-target="#ecommerce-product-details-5-technical" type="button">Detalles
+                                técnicos</button>
                             <button class="nav-link" data-bs-toggle="tab"
                                 data-bs-target="#ecommerce-product-details-5-customer-reviews" type="button">Reseñas
                                 (127)</button>
@@ -165,7 +172,7 @@
                                         <div class="col-lg-8">
                                             <div class="content-section">
                                                 <div>
-                                                {!! $producto->descripcion_larga !!}
+                                                    {!! $producto->descripcion_larga !!}
                                                 </div>
                                             </div>
                                         </div>

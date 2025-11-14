@@ -100,20 +100,25 @@
                                 <img src="{{ asset('storage/' . $imagen) }}" alt="Product Image" class="img-fluid"
                                     loading="lazy">
                                 <div class="product-actions">
-                                    <button class="action-btn wishlist-btn">
-                                        <i class="bi bi-heart"></i>
-                                    </button>
-                                    <a class="action-btn quickview-btn"
-                                    href="{{ url('/producto/'.$producto->id) }}">
+                                    <form action="{{ url('/favoritos') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                                        <button type="submit" class="action-btn wishlist-btn">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    </form>
+
+                                    <a class="action-btn quickview-btn" href="{{ url('/producto/' . $producto->id) }}">
                                         <i class="bi bi-zoom-in"></i>
-                                  </a>
+                                    </a>
                                 </div>
                                 <button class="cart-btn">Agregar al carrito</button>
                             </div>
                             <div class="product-info">
                                 <div class="product-category">{{ $producto->nombre }}</div>
                                 <h4 class="product-name"><a
-                                        href="{{ url('/producto/'.$producto->id) }}">{{ $producto->descripcion_corta }}</a></h4>
+                                        href="{{ url('/producto/' . $producto->id) }}">{{ $producto->descripcion_corta }}</a>
+                                </h4>
                                 <div class="product-rating">
                                     <div class="stars">
                                         <i class="bi bi-star-fill"></i>
@@ -122,14 +127,15 @@
                                         <i class="bi bi-star-fill"></i>
                                         <i class="bi bi-star-half"></i>
                                     </div>
-                                    
-                                      {{-- <span class="rating-count">(38)</span> --}}
-                                      <span class="badge bg-danger">{{ $producto->stock }} disponibles</span>
-                                    
+
+                                    {{-- <span class="rating-count">(38)</span> --}}
+                                    <span class="badge bg-danger">{{ $producto->stock }} disponibles</span>
+
                                 </div>
                                 <div class="product-price">
                                     {{-- <span class="old-price">$240.00</span> --}}
-                                    <span class="current-price">{{ $ajuste->divisa . ' ' . $producto->precio_venta }}</span>
+                                    <span
+                                        class="current-price">{{ $ajuste->divisa . ' ' . $producto->precio_venta }}</span>
                                 </div>
                                 <div class="color-swatches">
                                     {{-- <span class="swatch active" style="background-color: #1f2937;"></span>

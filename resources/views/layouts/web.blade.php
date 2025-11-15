@@ -151,7 +151,7 @@
                                     $cantidad_favoritos = \App\Models\ProductoFavorito::where('usuario_id', Auth::id())->count();
                                 }
                             @endphp
-                            <span class="badge">{{  $cantidad_favoritos ?? '' }}</span>
+                            <span class="badge">{{  $cantidad_favoritos ?? '0' }}</span>
                         </a>
 
                         <!-- Cart -->

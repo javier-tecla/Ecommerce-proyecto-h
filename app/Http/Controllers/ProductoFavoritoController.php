@@ -14,6 +14,12 @@ class ProductoFavoritoController extends Controller
      */
     public function index()
     {
+        if(!Auth::check()) {
+            return redirect()->route('web.login')
+                ->with('mensaje', 'Debes iniciar sesión para ver tus productos favoritos')
+                ->with('icono', 'warning');
+        }
+
         $ajuste = Ajuste::first();
         $productos_favoritos = ProductoFavorito::where('usuario_id', Auth::user()->id)
             ->with('producto.imagenes')
@@ -86,8 +92,20 @@ class ProductoFavoritoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductoFavorito $productoFavorito)
+    public function destroy($id)
     {
-        //
+        $productoFavorito = ProductoFavorito::find($id);
+
+        if(!$productoFavorito) {
+            return redirect()->back()
+                ->with('mensaje', 'El producto no está en tus favoritos')
+                ->with('icono', 'error');
+        }
+
+        $productoFavorito->delete();
+
+        return redirect()->back()
+            ->with('mensaje', 'Producto favorito eliminado')
+            ->with('icono', 'success');
     }
 }

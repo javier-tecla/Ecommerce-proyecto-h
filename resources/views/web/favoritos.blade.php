@@ -80,6 +80,7 @@
                                                     $imagen = $imagen_producto->imagen ?? '';
                                                 @endphp
                                                 <img src="{{ asset('storage/' . $imagen) }}" alt="Product" loading="lazy">
+                                                
                                                 <form action="{{ url('/favorito/' . $favorito->id) }}" method="POST"
                                                     id="miFormulario{{ $favorito->id }}" class="d-inline">
                                                     @csrf

@@ -53,6 +53,7 @@ Table carritos {
 
     usuario_id int [ref: > usuarios.id]
     producto_id int [ref: > productos.id]
+    cantidad int
 
     created_at timestamp
     updated_at timestamp

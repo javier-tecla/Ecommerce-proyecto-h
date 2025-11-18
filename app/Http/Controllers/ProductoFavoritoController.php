@@ -41,6 +41,11 @@ class ProductoFavoritoController extends Controller
      */
     public function store(Request $request)
     {
+         if(!Auth::check()) {
+            return redirect()->route('web.login')
+                ->with('mensaje', 'Debes iniciar sesión para ver tus productos favoritos')
+                ->with('icono', 'warning');
+        }
         // return response()->json($request->all());
         $request->validate([
             'producto_id' => 'required|exists:productos,id',

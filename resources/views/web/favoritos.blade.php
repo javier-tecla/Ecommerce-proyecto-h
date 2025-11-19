@@ -80,13 +80,14 @@
                                                     $imagen = $imagen_producto->imagen ?? '';
                                                 @endphp
                                                 <img src="{{ asset('storage/' . $imagen) }}" alt="Product" loading="lazy">
-                                                
+
                                                 <form action="{{ url('/favorito/' . $favorito->id) }}" method="POST"
                                                     id="miFormulario{{ $favorito->id }}" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn-remove" type="submit"
-                                                        aria-label="Remove from wishlist" onclick="preguntar{{ $favorito->id }}(event)">
+                                                        aria-label="Remove from wishlist"
+                                                        onclick="preguntar{{ $favorito->id }}(event)">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
                                                 </form>
@@ -114,7 +115,9 @@
                                                 <div class="sale-badge">{{ $favorito->producto->stock }} disponibles</div>
                                             </div>
                                             <div class="wishlist-content">
-                                                <a href="{{ url('/producto/'.$favorito->producto->id) }}"><h4>{{ $favorito->producto->nombre }}</h4></a>
+                                                <a href="{{ url('/producto/' . $favorito->producto->id) }}">
+                                                    <h4>{{ $favorito->producto->nombre }}</h4>
+                                                </a>
                                                 <div class="product-meta">
                                                     <div class="rating">
                                                         <i class="bi bi-star-fill"></i>
@@ -129,7 +132,12 @@
                                                             class="current">{{ $ajuste->divisa . ' ' . $favorito->producto->precio_venta }}</span>
                                                     </div>
                                                 </div>
-                                                <button type="button" class="btn-add-cart">Agregar al carrito</button>
+                                                <form action="{{ url('/carrito/agregar') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="producto_id" value="{{ $favorito->producto->id }}">
+                                                    <input type="hidden" name="cantidad" value="1">
+                                                    <button class="btn-add-cart">Agregar al carrito</button>
+                                                </form>
                                             </div>
                                         </div>
                                     @endforeach

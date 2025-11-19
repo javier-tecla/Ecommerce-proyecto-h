@@ -54,17 +54,44 @@
                                                     $imagen_producto = $carrito->producto->imagenes->first();
                                                     $imagen = $imagen_producto->imagen ?? '';
                                                 @endphp
-                                                <img src="{{ asset('storage/' . $imagen) }}" alt="Producto" class="img-fluid"
-                                                    loading="lazy">
+                                                <img src="{{ asset('storage/' . $imagen) }}" alt="Producto"
+                                                    class="img-fluid" loading="lazy">
                                             </div>
                                             <div class="product-details">
                                                 <h6 class="product-title">{{ $carrito->producto->nombre }}</h6>
                                                 <span class="badge bg-danger">{{ $carrito->producto->stock }}
                                                     disponibles</span>
                                                 <br>
-                                                <button class="remove-item" type="button">
-                                                    <i class="bi bi-trash"></i> Remove
-                                                </button>
+                                                <form action="{{ url('/carrito/' . $carrito->id) }}" method="POST"
+                                                    id="miFormulario{{ $carrito->id }}" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-outline-danger btn-sm" type="button"
+                                                        onclick="preguntar{{ $carrito->id }}(event)">
+                                                        <i class="bi bi-trash"></i> Borrar
+                                                    </button>
+                                                </form>
+                                                <script>
+                                                    function preguntar{{ $carrito->id }}(event) {
+                                                        event.preventDefault();
+                                                        swal.fire({
+                                                            title: '¿Desea eliminar este registro?',
+                                                            text: '',
+                                                            icon: 'question',
+                                                            showDenyButton: true,
+                                                            confirmButtonText: 'Eliminar',
+                                                            confirmButtonColor: '#a5161d',
+                                                            denyButtonColor: '#270a0a',
+                                                            denyButtonText: 'Cancelar',
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                // JavaScript puro para enviar el formulario
+                                                                document.getElementById('miFormulario{{ $carrito->id }}').submit();
+                                                            }
+                                                        });
+                                                    }
+                                                </script>
+
                                             </div>
                                         </div>
                                     </div>
@@ -75,16 +102,22 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                                        <div class="quantity-selector">
-                                            <button class="quantity-btn decrease">
-                                                <i class="bi bi-dash"></i>
-                                            </button>
-                                            <input type="number" class="quantity-input" value="{{ $carrito->cantidad }}"
-                                                min="1" max="{{ $carrito->producto->stock }}">
-                                            <button class="quantity-btn increase">
-                                                <i class="bi bi-plus"></i>
-                                            </button>
-                                        </div>
+                                        <form action="{{ url('/carrito/actualizar') }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="carrito_id" value="{{ $carrito->id }}">
+                                            <div class="quantity-selector">
+                                                <button type="submit" class="quantity-btn decrease">
+                                                    <i class="bi bi-dash"></i>
+                                                </button>
+                                                <input type="number" class="quantity-input"
+                                                    value="{{ $carrito->cantidad }}" min="1"
+                                                    max="{{ $carrito->producto->stock }}" name="cantidad">
+                                                <button type="submit" class="quantity-btn increase">
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                     <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                                         <div class="item-total">
@@ -105,12 +138,12 @@
 
                                 </div>
                                 <div class="col-lg-6 text-md-end">
-                                    <button class="btn btn-outline-heading me-2">
-                                        <i class="bi bi-arrow-clockwise"></i> Actualizar carrito
-                                    </button>
-                                    <button class="btn btn-outline-remove">
-                                        <i class="bi bi-trash"></i> Limpiar Carrito
-                                    </button>
+                                    <form action="{{ url('/carrito/limpiar') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-remove">
+                                            <i class="bi bi-trash"></i> Limpiar Carrito
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +156,8 @@
 
                         <div class="summary-total">
                             <span class="summary-label">Total</span>
-                            <span class="summary-value">{{ $ajuste->divisa . ' ' . $total }}</span>
+                            <span
+                                class="summary-value">{{ $ajuste->divisa . ' ' . number_format($total, 2, ',', '.') }}</span>
                         </div>
 
                         <div class="checkout-button">

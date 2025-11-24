@@ -58,3 +58,30 @@ Table carritos {
     created_at timestamp
     updated_at timestamp
 }
+
+Table ordenes {
+    id int [pk, increment]
+
+    usuario_id int  [ref: > usuarios.id]
+    total decimal(10,2)
+    divisa varchar
+    estado_pago varchar
+    estado_orden varchar
+    transaccion_id varchar
+    direccion_enviar varchar
+
+    created_at timestamp
+    updated_at timestamp
+}
+
+Table detalle_ordenes {
+    id int [pk, increment]
+
+    orden_id int [ref: > ordenes.id]
+    producto_id int [ref: > productos.id]
+    cantidad int
+    precio decimal(10,2)
+
+    created_at timestamp
+    updated_at timestamp
+}

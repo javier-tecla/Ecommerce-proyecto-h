@@ -154,6 +154,15 @@
                     <div class="cart-summary">
                         <h4 class="summary-title">Resumen del pedido</h4>
 
+                        <form action="{{ route('web.paypal.pago') }}" method="POST">
+                            @csrf
+
+                         <div>
+                            <span class="summary-label">Datos del envio de la orden</span><br><br>
+                           <input type="text" class="form-control" placeholder="Dirección de envio..." name="direccion_envio" required>
+                        </div>
+
+
                         <div class="summary-total">
                             <span class="summary-label">Total</span>
                             <span
@@ -161,15 +170,15 @@
                         </div>
 
                         <div class="checkout-button">
-                           <form action="{{ route('web.paypal.pago') }}" method="POST">
-                            @csrf
+                           
                             <input type="hidden" name="total" value="{{ $total }}">
                             <button type="submit" class="btn btn-primary w-100">
                                 <i class="bi bi-paypal"></i> Pagar con Paypal
                             </button>
-                           </form>
+                           
                         </div>
 
+                        </form>
                         <div class="continue-shopping">
                             <a href="{{ url('/') }}" class="btn btn-link w-100">
                                 <i class="bi bi-arrow-left"></i> Continuar Comprando

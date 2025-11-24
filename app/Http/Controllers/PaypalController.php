@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaypalController extends Controller
@@ -20,6 +21,13 @@ class PaypalController extends Controller
     public function pago(Request $request)
     {
         // return response()->json($request->all());
+        $request->validate([
+            'direccion_envio' => 'require|string|max:255',
+            'total' => 'required|numeric|min:0.01',
+        ]);
+
+        $direccion_formulario = $request->input('direccion_envio');
+        $request->session()->put('direccion_envio', $direccion_formulario);
         $total = $request->input('total');
         $data = [
             "intent" => "CAPTURE",
@@ -64,12 +72,23 @@ class PaypalController extends Controller
 
     public function gracias(Request $request)
     {
+        $usuario_id = Auth::user()->id;
+        // Lógica para la página de agradecimiento despues del pago exitoso
         $token = $request->query('token');
         try{
             $response = $this->provider->capturePaymentOrder($token);
 
             if (isset($response['status']) && $response['status'] == 'COMPLETED') {
                 // Aqui puedes actualizar el estado del pedido en tu base de datos si es necesario
+                // dd($response);
+                $DatosPago = $response['purchase_units'][0]['payments']['captures'][0];
+                $total = $DatosPago['amount']['value'];
+                $transaccion_id = $DatosPago['id'];
+                $estado_pago = $DatosPago['status'];
+                $divisa = $DatosPago['amount']['currency_code'];
+                $estado_orden = 'Procesando';
+                $direccion_envio = $request->session()->get('direccion_envio', 'No proporcionada');
+
 
                 return redirect()->route('web.carrito.index')->with('mensaje', 'Pago realizado con éxito. ¡Gracias por tu compra!')->with('icono', 'success');
             }else{

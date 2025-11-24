@@ -13,7 +13,7 @@ class Producto extends Model
     protected $fillable = [
         'categoria_id',
         'nombre',
-        'cofigo',
+        'codigo',
         'descripcion_corta',
         'descripcion_larga',
         'precio_compra',
@@ -39,5 +39,10 @@ class Producto extends Model
     public function carritos()
     {
         return $this->hasMany(Carrito::class, 'producto_id');
+    }
+
+    public function detallesOrden()
+    {
+        return $this->hasMany(DetalleOrden::class, 'producto_id');
     }
 }

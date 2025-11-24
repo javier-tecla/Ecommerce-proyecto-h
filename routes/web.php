@@ -75,6 +75,10 @@ Route::put('/carrito/actualizar', [App\Http\Controllers\CarritoController::class
 Route::delete('/carrito/{id}', [App\Http\Controllers\CarritoController::class, 'destroy'])->name('web.carrito.destroy');
 Route::post('/carrito/limpiar', [App\Http\Controllers\CarritoController::class, 'limpiar'])->name('web.carrito.limpiar');
 
+// Rutas para el pago con Paypal
+Route::post('/paypal/pago', [App\Http\Controllers\PaypalController::class, 'pago'])->name('web.paypal.pago');
+Route::get('/paypal/gracias', [App\Http\Controllers\PaypalController::class, 'gracias'])->name('web.paypal.gracias');
+Route::get('/paypal/cancelar', [App\Http\Controllers\PaypalController::class, 'cancelar'])->name('web.paypal.cancelar');
 
 
 

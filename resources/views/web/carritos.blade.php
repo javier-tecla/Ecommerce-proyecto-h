@@ -161,9 +161,13 @@
                         </div>
 
                         <div class="checkout-button">
-                            <a href="#" class="btn btn-accent w-100">
-                                Pasar por la caja <i class="bi bi-arrow-right"></i>
-                            </a>
+                           <form action="{{ route('web.paypal.pago') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="total" value="{{ $total }}">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-paypal"></i> Pagar con Paypal
+                            </button>
+                           </form>
                         </div>
 
                         <div class="continue-shopping">

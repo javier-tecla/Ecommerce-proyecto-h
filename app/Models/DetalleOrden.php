@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DetalleOrden extends Model
 {
-    protected $table = "ordens";
+    protected $table = "detalle_ordens";
 
     protected $fillable = [
         'orden_id',

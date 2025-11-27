@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Orden;
-use App\Models\Carrito;
+use App\Models\Ajuste;
 
+use App\Models\Carrito;
 use App\Models\DetalleOrden;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -127,7 +128,7 @@ class PaypalController extends Controller
                     }
 
                     DB::commit();
-                    return redirect()->route('web.paypal.orden_completado')->with('mensaje', 'Pago realizado con éxito. ¡Gracias por tu compra!')->with('icono', 'success');
+                    return redirect()->route('web.paypal.orden_completado',$orden->id)->with('mensaje', 'Pago realizado con éxito. ¡Gracias por tu compra!')->with('icono', 'success');
 
                 }catch (\Exception $e) {
                     DB::rollBack();
@@ -146,9 +147,11 @@ class PaypalController extends Controller
                 
     }
 
-    public function orden_completado()
+    public function orden_completado($id)
     {
-        return view('web.orden_completado');
+        $orden = Orden::findOrFail($id);
+        $ajuste = Ajuste::first();
+        return view('web.orden_completado',compact('orden','ajuste'));
     }
     
 

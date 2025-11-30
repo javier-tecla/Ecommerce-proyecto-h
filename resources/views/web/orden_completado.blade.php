@@ -49,17 +49,26 @@
                     <div class="order-items list-group mb-4">
 
                         @foreach ($orden->detalles as $detalle)
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="mb-0">{{ $detalle->producto->nombre }}</h6>
-                                <small class="text-muted">
-                                    {{ $detalle->cantidad }} x {{ $ajuste->divisa . ' ' . number_format($detalle->precio, 2) }}
-                                </small>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0">{{ $detalle->producto->nombre }}</h6>
+                                    @php
+                                        $imagen_producto = $detalle->producto->imagenes->first();
+                                        $imagen = $imagen_producto->imagen ?? '';
+                                    @endphp
+                                    <img src="{{ asset('storage/' . $imagen) }}" width="100px" alt="Product" loading="lazy">
+                                    <br>
+                                    <small class="text-muted">
+                                       Cantidad: {{ $detalle->cantidad }} <br>
+                                       Precio unitario:
+                                        {{ $ajuste->divisa . ' ' . number_format($detalle->precio, 2) }}
+                                    </small>
+                                </div>
+                                <span class="fw-bold">
+                                    Subtotal:
+                                    {{ $ajuste->divisa . ' ' . number_format($detalle->cantidad * $detalle->precio, 2) }}
+                                </span>
                             </div>
-                            <span class="fw-bold">
-                                {{ $ajuste->divisa . ' ' . number_format($detalle->cantidad * $detalle->precio, 2) }}
-                            </span>
-                        </div>
                         @endforeach
                     </div>
 
@@ -82,7 +91,8 @@
 
                             <li class="d-flex justify-content-between fw-bold pt-2 border-top">
                                 <span>Total Final:</span>
-                                <span class="text-success fs-5">{{ $ajuste->divisa . ' ' . number_format($orden->total, 2) }}</span>
+                                <span
+                                    class="text-success fs-5">{{ $ajuste->divisa . ' ' . number_format($orden->total, 2) }}</span>
                             </li>
                         </ul>
                         <p class="text-muted mt-3 mb-0">
@@ -94,8 +104,10 @@
                     {{-- Siguientes Pasos --}}
                     <div class="card p-4">
                         <h5 class="mb-3">¿Qué sigue?</h5>
-                        <p class="mb-2"><i class="bi bi-envelope me-2 text-warning"></i> Revisa tu correo electrónico para la factura detallada.</p>
-                        <p class="mb-2"><i class="bi bi-truck me-2 text-warning"></i> Recibirás una notificación cuando tu pedido sea enviado.</p>
+                        <p class="mb-2"><i class="bi bi-envelope me-2 text-warning"></i> Revisa tu correo electrónico para
+                            la factura detallada.</p>
+                        <p class="mb-2"><i class="bi bi-truck me-2 text-warning"></i> Recibirás una notificación cuando tu
+                            pedido sea enviado.</p>
 
                     </div>
 

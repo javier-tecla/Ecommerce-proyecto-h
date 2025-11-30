@@ -8,8 +8,10 @@ use App\Models\Ajuste;
 use App\Models\Carrito;
 use App\Models\DetalleOrden;
 use Illuminate\Http\Request;
+use App\Mail\CompraConfirmada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaypalController extends Controller
@@ -128,7 +130,10 @@ class PaypalController extends Controller
                     }
 
                     DB::commit();
-                    return redirect()->route('web.paypal.orden_completado',$orden->id)->with('mensaje', 'Pago realizado con éxito. ¡Gracias por tu compra!')->with('icono', 'success');
+
+                    Mail::to($orden->usuario->email)->send(new CompraConfirmada($orden));
+
+                    return redirect()->route('web.paypal.orden_completado',$orden->id)->with('mensaje', 'Pago realizado con éxito. ¡Gracias por tu compra!, se envio una copia de la orden a tu correo electronico.')->with('icono', 'success');
 
                 }catch (\Exception $e) {
                     DB::rollBack();

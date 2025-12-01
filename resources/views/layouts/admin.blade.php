@@ -108,9 +108,12 @@
                             </a>
                         </li>
 
-                        
-
-
+                        <li class="sidebar-item {{ request()->is('admin/pedidos*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/pedidos') }}" class='sidebar-link'>
+                                <i class="bi bi-card-checklist"></i>
+                                <span>Pedidos</span>
+                            </a>
+                        </li>
 
                         <li class="sidebar-title">Ajustes</li>
 

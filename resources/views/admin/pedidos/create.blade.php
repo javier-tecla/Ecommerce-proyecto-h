@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for=""><i class="bi bi-cash-coin"></i> Estado de la orden</label>
-                            <p>{{ $pedido->estado_orden }}</p>
+                            <p style="color: green;font-size:18pt"><b>{{ $pedido->estado_orden }}</b></p>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -68,8 +68,11 @@
                                                     loading="lazy">
                                             </td>
                                             <td>
-                                                <h5><a href="{{ url('/admin/producto/'.$detalle->producto->id) }}">{{ $detalle->producto->nombre }}</a></h5>
-                                                <br><small>{{ $detalle->producto->descripcion_corta }}</small></td>
+                                                <h5><a
+                                                        href="{{ url('/admin/producto/' . $detalle->producto->id) }}">{{ $detalle->producto->nombre }}</a>
+                                                </h5>
+                                                <br><small>{{ $detalle->producto->descripcion_corta }}</small>
+                                            </td>
                                             <td style="text-align: center">{{ $pedido->divisa . ' ' . $detalle->precio }}
                                             </td>
                                             <td style="text-align: center">{{ $detalle->cantidad }}</td>
@@ -92,66 +95,75 @@
                         </div>
 
                         <hr>
-                        <h5>Tomar el pedido</h5>
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="descripcion_larga">Nota</label>
-                                    <div class="input-group">
-                                        <div style="width: 100%">
-                                            <textarea name="descripcion_larga" id="descripcion_larga" class="form-control ckeditor" rows="2"
-                                                placeholder="Descripción detallada del producto (máx. 255 caracteres)">{{ old('descripcion_larga') }}</textarea>
+                        @if ($pedido->estado_orden == 'Procesando')
+                            <h5>Tomar el pedido</h5>
+
+                            <form action="{{ url('/admin/pedido/' . $pedido->id) }}" method="POST">
+                                @csrf
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <label for="nota">Nota</label>
+                                            <div class="input-group">
+                                                <div style="width: 100%">
+                                                    <textarea name="nota" id="nota" class="form-control ckeditor" rows="2"
+                                                        placeholder="Descripción detallada del envio de la orden">{{ old('nota') }}</textarea>
+                                                </div>
+                                            </div>
+                                            @error('nota')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
                                         </div>
                                     </div>
-                                    @error('descripcion_larga')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
                                 </div>
-                                <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        // Editor para el contenido  (más completo)
-                                        ClassicEditor
-                                            .create(document.querySelector('#descripcion_larga'), {
-                                                toolbar: {
-                                                    items: [
-                                                        'heading', '|',
-                                                        'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
-                                                        'link', 'bulletedList', 'numberedList', '|',
-                                                        'outdent', 'indent', '|',
-                                                        'alignment', '|',
-                                                        'blockQuote', 'insertTable', 'mediaEmbed', '|',
-                                                        'undo', 'redo', '|',
-                                                        'fontBackgroundColor', 'fontColor', 'fontSize', 'fontFamily', '|',
-                                                        'code', 'codeBlock', 'htmlEmbed', '|',
-                                                        'sourceEditing'
-                                                    ],
-                                                    shouldNotGroupWhenFull: true
-                                                },
-                                                language: 'es',
-                                            })
-                                            .catch(error => {
-                                                console.error(error);
-                                            });
-                                    });
-                                </script>
-                            </div>
-                        </div>
 
-                        <div class="row">
+                                <div class="row">
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <a href="{{ url('/admin/productos') }}" class="btn btn-secondary">Cancelar</a>
-                                        <button type="submit" class="btn btn-primary">Registrar</button>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <a href="{{ url('/admin/pedidos') }}"
+                                                    class="btn btn-secondary">Cancelar</a>
+                                                <button type="submit" class="btn btn-primary">Tomar pedido</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-
-                        </div>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>
-        @endsection
+        </div>
+
+        <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Editor para el contenido  (más completo)
+                ClassicEditor
+                    .create(document.querySelector('#nota'), {
+                        toolbar: {
+                            items: [
+                                'heading', '|',
+                                'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
+                                'link', 'bulletedList', 'numberedList', '|',
+                                'outdent', 'indent', '|',
+                                'alignment', '|',
+                                'blockQuote', 'insertTable', 'mediaEmbed', '|',
+                                'undo', 'redo', '|',
+                                'fontBackgroundColor', 'fontColor', 'fontSize', 'fontFamily', '|',
+                                'code', 'codeBlock', 'htmlEmbed', '|',
+                                'sourceEditing'
+                            ],
+                            shouldNotGroupWhenFull: true
+                        },
+                        language: 'es',
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+        </script>
+    @endsection

@@ -69,6 +69,7 @@ Table ordenes {
     estado_orden varchar
     transaccion_id varchar
     direccion_enviar varchar
+    nota text
 
     created_at timestamp
     updated_at timestamp

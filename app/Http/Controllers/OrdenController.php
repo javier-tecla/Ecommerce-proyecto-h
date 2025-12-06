@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Orden;
+use App\Models\Ajuste;
 use Illuminate\Http\Request;
+use App\Mail\PedidoEnviadoMail;
+use Illuminate\Support\Facades\Mail;
 
 class OrdenController extends Controller
 {
@@ -33,6 +36,8 @@ class OrdenController extends Controller
     {
         // return response()->json($request->all());
         $orden = Orden::findOrFail($id);
+        $ajuste = Ajuste::first();
+
         $request->validate([
             'nota' => 'required',
         ]);
@@ -40,6 +45,10 @@ class OrdenController extends Controller
         $orden->nota = $request->input('nota');
         $orden->estado_orden = 'Enviado';
         $orden->save();
+
+        Mail::to($orden->usuario->email)->send(new PedidoEnviadoMail($orden,$ajuste));
+        
+
         return redirect()->route('admin.pedidos.index')
         ->with('mensaje', 'Pedido tomado correctamente.')
         ->with('icono', 'success');

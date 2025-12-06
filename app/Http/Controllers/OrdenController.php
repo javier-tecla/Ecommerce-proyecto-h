@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Orden;
-use App\Models\Ajuste;
-use Illuminate\Http\Request;
 use App\Mail\PedidoEnviadoMail;
+use App\Models\Ajuste;
+use App\Models\Orden;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class OrdenController extends Controller
@@ -13,10 +13,26 @@ class OrdenController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pedidos = Orden::with('detalles')->orderBy('created_at', 'desc')->paginate(5);
+        $buscar = $request->get('buscar');
+        $query = Orden::with('usuario', 'detalles.producto')->orderBy('created_at', 'desc');
         // return response()->json($ordenes);
+
+        if ($buscar) {
+            $query->where(function ($q) use ($buscar) {
+
+                $q->whereHas('usuario', function ($userQuery) use ($buscar) {
+                    $userQuery->where('name', 'like', '%'.$buscar.'%')
+                        ->orWhere('email', 'like', '%'.$buscar.'%');
+                });
+                $q->orWhereHas('detalles.producto', function ($productQuery) use ($buscar) {
+                    $productQuery->where('nombre', 'like', '%'.$buscar.'%');
+                });
+            });
+        }
+
+        $pedidos = $query->paginate(5);
         return view('admin.pedidos.index', compact('pedidos'));
     }
 
@@ -26,6 +42,7 @@ class OrdenController extends Controller
     public function create($id)
     {
         $pedido = Orden::with('detalles')->findOrFail($id);
+
         return view('admin.pedidos.create', compact('pedido'));
     }
 
@@ -46,12 +63,11 @@ class OrdenController extends Controller
         $orden->estado_orden = 'Enviado';
         $orden->save();
 
-        Mail::to($orden->usuario->email)->send(new PedidoEnviadoMail($orden,$ajuste));
-        
+        Mail::to($orden->usuario->email)->send(new PedidoEnviadoMail($orden, $ajuste));
 
         return redirect()->route('admin.pedidos.index')
-        ->with('mensaje', 'Pedido tomado correctamente.')
-        ->with('icono', 'success');
+            ->with('mensaje', 'Pedido tomado correctamente.')
+            ->with('icono', 'success');
     }
 
     /**

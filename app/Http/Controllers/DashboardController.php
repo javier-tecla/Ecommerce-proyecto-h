@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Orden;
 use App\Models\Ajuste;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {

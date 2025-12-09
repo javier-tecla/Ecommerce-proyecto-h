@@ -27,6 +27,12 @@ class DashboardController extends Controller
         return view('web.carritos');
     }
 
+    public function ajustes()
+    {
+        $ajuste = Ajuste::first();
+        return view('web.ajustes', compact('ajuste'));
+    }
+
     public function login()
     {
         $ajuste = Ajuste::first();

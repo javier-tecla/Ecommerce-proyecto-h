@@ -104,11 +104,13 @@
                                 </div>
                                 @if (Auth::check())
                                     <div class="dropdown-body">
-                                        <a class="dropdown-item d-flex align-items-center" href="{{ url('/dashboard') }}">
+                                        <a class="dropdown-item d-flex align-items-center"
+                                            href="{{ url('/dashboard') }}">
                                             <i class="bi bi-person-circle me-2"></i>
                                             <span>Mi perfil</span>
                                         </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="account.html">
+                                        <a class="dropdown-item d-flex align-items-center"
+                                            href="{{ url('/dashboard') }}">
                                             <i class="bi bi-bag-check me-2"></i>
                                             <span>Mis pedidos</span>
                                         </a>
@@ -117,7 +119,8 @@
                                             <i class="bi bi-heart me-2"></i>
                                             <span>Mis favoritos</span>
                                         </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="account.html">
+                                        <a class="dropdown-item d-flex align-items-center"
+                                            href="{{ url('/ajustes') }}">
                                             <i class="bi bi-gear me-2"></i>
                                             <span>Ajustes</span>
                                         </a>
@@ -147,18 +150,21 @@
                         <a href="{{ url('/favoritos') }}" class="header-action-btn d-none d-md-block">
                             <i class="bi bi-heart"></i>
                             @php
-                                if(Auth::check()){
-                                    $cantidad_favoritos = \App\Models\ProductoFavorito::where('usuario_id', Auth::id())->count();
+                                if (Auth::check()) {
+                                    $cantidad_favoritos = \App\Models\ProductoFavorito::where(
+                                        'usuario_id',
+                                        Auth::id(),
+                                    )->count();
                                 }
                             @endphp
-                            <span class="badge">{{  $cantidad_favoritos ?? '0' }}</span>
+                            <span class="badge">{{ $cantidad_favoritos ?? '0' }}</span>
                         </a>
 
                         <!-- Cart -->
                         <a href="{{ url('/carrito') }}" class="header-action-btn">
                             <i class="bi bi-cart3"></i>
                             @php
-                                if(Auth::check()){
+                                if (Auth::check()) {
                                     $cantidad_carritos = \App\Models\Carrito::where('usuario_id', Auth::id())->count();
                                 }
                             @endphp

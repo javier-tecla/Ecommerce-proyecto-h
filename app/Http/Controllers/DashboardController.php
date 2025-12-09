@@ -33,6 +33,44 @@ class DashboardController extends Controller
         return view('web.ajustes', compact('ajuste'));
     }
 
+    public function informacion_personal(Request $request)
+    {
+        // return response()->json($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,'.Auth::user()->id,
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->save();
+
+        return redirect()->back()->with('mensaje', 'Información personal actualizada correctamente.')->with('icono', 'success');
+    }
+
+    public function actualizar_password(Request $request)
+    {
+        // return response()->json($request->all());
+        $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        // Verificar la contraseña actual
+        if (!password_verify($request->input('current_password'), $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'La contraseña actual es incorrecta.']);
+        }
+
+        // Actualizar la contraseña
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+
+        return redirect()->back()->with('mensaje', 'Contraseña actualizada correctamente.')->with('icono', 'success');
+    }
+
     public function login()
     {
         $ajuste = Ajuste::first();

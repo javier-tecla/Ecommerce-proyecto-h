@@ -52,7 +52,7 @@
                                     <a class="nav-link active" data-bs-toggle="tab" href="#orders">
                                         <i class="bi bi-box-seam"></i>
                                         <span>Ajustes</span>
-                                        
+
                                     </a>
                                 </li>
                             </ul>
@@ -75,49 +75,68 @@
                                     <!-- Personal Information -->
                                     <div class="settings-section" data-aos="fade-up">
                                         <h3>Informacion personal</h3>
-                                        <form class="php-email-form settings-form">
+                                        <form class="settings-form" action="{{ url('/ajustes/informacion_personal') }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PUT')
                                             <div class="row g-3">
                                                 <div class="col-md-6">
-                                                    <label for="firstName" class="form-label">Nombre de usuario</label>
-                                                    <input type="text" class="form-control" id="firstName" value="{{ Auth::user()->name }}"
-                                                        required="">
+                                                    <label for="name" class="form-label">Nombre de usuario</label>
+                                                    <input type="text" name="name" class="form-control" id="name"
+                                                        value="{{ Auth::user()->name }}" required>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="email" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="email"
-                                                        value="{{ Auth::user()->email }}" required="">
+                                                    <input type="email" class="form-control" name="email" id="email"
+                                                        value="{{ Auth::user()->email }}" required>
                                                 </div>
                                             </div>
 
                                             <div class="form-buttons">
                                                 <button type="submit" class="btn-save">Guardar cambios</button>
                                             </div>
-
-                                            <div class="loading">Loading</div>
-                                            <div class="error-message"></div>
-                                            <div class="sent-message">Your changes have been saved successfully!</div>
                                         </form>
                                     </div>
 
                                     <!-- Security Settings -->
                                     <div class="settings-section" data-aos="fade-up" data-aos-delay="200">
                                         <h3>Seguridad</h3>
-                                        <form class="php-email-form settings-form">
+                                        <form class="settings-form" action="{{ url('/ajustes/actualizar_password') }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PUT')
                                             <div class="row g-3">
                                                 <div class="col-md-12">
-                                                    <label for="currentPassword" class="form-label">Contraseña actual</label>
-                                                    <input type="password" class="form-control" id="currentPassword"
-                                                        required="">
+                                                    <label for="currentPassword" class="form-label">Contraseña
+                                                        actual</label>
+                                                    <input type="password" class="form-control" name="current_password"
+                                                        id="currentPassword" required>
+                                                    @error('current_password')
+                                                        <div role="alert">
+                                                            <small style="color: red">{{ $message }}</small>
+                                                        </div>
+                                                    @enderror
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="newPassword" class="form-label">Nueva contraseña</label>
-                                                    <input type="password" class="form-control" id="newPassword"
-                                                        required="">
+                                                    <input type="password" class="form-control" name="password"
+                                                        id="newPassword" required>
+                                                    @error('password')
+                                                        <div role="alert">
+                                                            <small style="color: red">{{ $message }}</small>
+                                                        </div>
+                                                    @enderror
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="confirmPassword" class="form-label">Confirmación de la contraseña</label>
-                                                    <input type="password" class="form-control" id="confirmPassword"
-                                                        required="">
+                                                    <label for="confirmPassword" class="form-label">Confirmación de la
+                                                        contraseña</label>
+                                                    <input type="password" class="form-control"
+                                                        name="password_confirmation" id="confirmPassword" required>
+                                                    @error('password_confirmation')
+                                                        <div role="alert">
+                                                            <small style="color: red">{{ $message }}</small>
+                                                        </div>
+                                                    @enderror
                                                 </div>
                                             </div>
 
@@ -132,8 +151,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </section><!-- /Account Section -->
 @endsection

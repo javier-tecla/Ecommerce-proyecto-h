@@ -65,6 +65,8 @@ Route::get('/producto/{id}', [App\Http\Controllers\ProductoController::class, 'd
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('web.dashboard');
 Route::get('/carrito', [App\Http\Controllers\DashboardController::class, 'carrito'])->name('web.carrito');
 Route::get('/ajustes', [App\Http\Controllers\DashboardController::class, 'ajustes'])->name('web.ajustes');
+Route::put('/ajustes/informacion_personal', [App\Http\Controllers\DashboardController::class, 'informacion_personal'])->name('web.informacion_personal');
+Route::put('/ajustes/actualizar_password', [App\Http\Controllers\DashboardController::class, 'actualizar_password'])->name('web.actualizar_password');
 Route::get('/web/login', [App\Http\Controllers\DashboardController::class, 'login'])->name('web.login');
 Route::post('/web/login', [App\Http\Controllers\DashboardController::class, 'autenticacion'])->name('web.autenticacion');
 Route::get('/web/registro', [App\Http\Controllers\DashboardController::class, 'registro'])->name('web.registro');

@@ -35,6 +35,8 @@
                                     <td class="text-center">
                                         <a href="{{ url('/admin/rol/' . $role->id) }}" class="btn btn-info btn-sm"><i
                                                 class="bi bi-eye"></i> Ver</a>
+                                        <a href="{{ url('/admin/rol/' . $role->id.'/permisos') }}" class="btn btn-warning btn-sm"><i
+                                                class="bi bi-shield-check"></i> Permisos</a>
                                         <a href="{{ url('/admin/rol/' . $role->id . '/edit') }}"
                                             class="btn btn-success btn-sm"><i class="bi bi-pencil"></i> Editar</a>
                                         <form action="{{ url('/admin/rol/' . $role->id) }}" method="POST"

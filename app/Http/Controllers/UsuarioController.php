@@ -35,6 +35,13 @@ class UsuarioController extends Controller
         return view('admin.usuarios.create', compact('roles'));
     }
 
+    public function perfil($id)
+    {
+        $ajuste = \App\Models\Ajuste::first();
+        $usuario = User::find($id);
+        return view('admin.usuarios.perfil',compact('usuario','ajuste'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */

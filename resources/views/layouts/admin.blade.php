@@ -150,7 +150,7 @@
                             <ul class="submenu">
 
                                 <li class="submenu-item">
-                                    <a href="account-profile.html" class="submenu-link">Perfil</a>
+                                    <a href="{{ url('/admin/usuario/'.Auth::user()->id.'/perfil') }}" class="submenu-link">Perfil</a>
                                 </li>
 
                                 <li class="submenu-item">

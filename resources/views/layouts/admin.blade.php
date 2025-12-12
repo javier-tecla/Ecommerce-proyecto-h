@@ -73,56 +73,73 @@
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
 
-                        <li class="sidebar-item {{ request()->is('admin') ? 'active' : '' }}">
-                            <a href="{{ url('/admin') }}" class='sidebar-link'>
-                                <i class="bi bi-house-fill"></i>
-                                <span>Inicio</span>
-                            </a>
-                        </li>
+                        @can('Ver dashboard del Admin')
+                            <li class="sidebar-item {{ request()->is('admin') ? 'active' : '' }}">
+                                <a href="{{ url('/admin') }}" class='sidebar-link'>
+                                    <i class="bi bi-house-fill"></i>
+                                    <span>Inicio</span>
+                                </a>
+                            </li>
+                        @endcan
 
-                        <li class="sidebar-item {{ request()->is('admin/rol*') ? 'active' : '' }}">
-                            <a href="{{ url('/admin/roles') }}" class='sidebar-link'>
-                                <i class="bi bi-people-fill"></i>
-                                <span>Roles</span>
-                            </a>
-                        </li>
+                        @can('Listado de Roles')
+                            <li class="sidebar-item {{ request()->is('admin/rol*') ? 'active' : '' }}">
+                                <a href="{{ url('/admin/roles') }}" class='sidebar-link'>
+                                    <i class="bi bi-people-fill"></i>
+                                    <span>Roles</span>
+                                </a>
+                            </li>
+                        @endcan
 
-                        <li class="sidebar-item {{ request()->is('admin/usuario*') ? 'active' : '' }}">
-                            <a href="{{ url('/admin/usuarios') }}" class='sidebar-link'>
-                                <i class="bi bi-person-fill-add"></i>
-                                <span>Usuarios</span>
-                            </a>
-                        </li>
+                        @can('Listado de Usuarios')
+                            <li class="sidebar-item {{ request()->is('admin/usuario*') ? 'active' : '' }}">
+                                <a href="{{ url('/admin/usuarios') }}" class='sidebar-link'>
+                                    <i class="bi bi-person-fill-add"></i>
+                                    <span>Usuarios</span>
+                                </a>
+                            </li>
+                        @endcan
 
-                        <li class="sidebar-item {{ request()->is('admin/categoria*') ? 'active' : '' }}">
-                            <a href="{{ url('/admin/categorias') }}" class='sidebar-link'>
-                                <i class="bi bi-tags"></i>
-                                <span>Categorías</span>
-                            </a>
-                        </li>
 
-                        <li class="sidebar-item {{ request()->is('admin/producto*') ? 'active' : '' }}">
-                            <a href="{{ url('/admin/productos') }}" class='sidebar-link'>
-                                <i class="bi bi-box-seam"></i>
-                                <span>Productos</span>
-                            </a>
-                        </li>
+                        @can('Listado de Categorías')
+                            <li class="sidebar-item {{ request()->is('admin/categoria*') ? 'active' : '' }}">
+                                <a href="{{ url('/admin/categorias') }}" class='sidebar-link'>
+                                    <i class="bi bi-tags"></i>
+                                    <span>Categorías</span>
+                                </a>
+                            </li>
+                        @endcan
 
-                        <li class="sidebar-item {{ request()->is('admin/pedidos*') ? 'active' : '' }}">
-                            <a href="{{ url('/admin/pedidos') }}" class='sidebar-link'>
-                                <i class="bi bi-card-checklist"></i>
-                                <span>Pedidos</span>
-                            </a>
-                        </li>
+                        @can('Listado de Productos')
+                            <li class="sidebar-item {{ request()->is('admin/producto*') ? 'active' : '' }}">
+                                <a href="{{ url('/admin/productos') }}" class='sidebar-link'>
+                                    <i class="bi bi-box-seam"></i>
+                                    <span>Productos</span>
+                                </a>
+                            </li>
+                        @endcan
+
+                        @can('Listado de Pedidos')
+                            <li class="sidebar-item {{ request()->is('admin/pedidos*') ? 'active' : '' }}">
+                                <a href="{{ url('/admin/pedidos') }}" class='sidebar-link'>
+                                    <i class="bi bi-card-checklist"></i>
+                                    <span>Pedidos</span>
+                                </a>
+                            </li>
+                        @endcan
 
                         <li class="sidebar-title">Ajustes</li>
 
-                        <li class="sidebar-item {{ request()->is('admin/ajuste*') ? 'active' : '' }}">
-                            <a href="{{ url('/admin/ajustes') }}" class='sidebar-link'>
-                                <i class="bi bi-gear-fill"></i>
-                                <span>Configuración</span>
-                            </a>
-                        </li>
+                        @can('Ajustes del sistema')
+                            <li class="sidebar-item {{ request()->is('admin/ajuste*') ? 'active' : '' }}">
+                                <a href="{{ url('/admin/ajustes') }}" class='sidebar-link'>
+                                    <i class="bi bi-gear-fill"></i>
+                                    <span>Configuración</span>
+                                </a>
+                            </li>
+                        @endcan
+
+
 
                         <li class="sidebar-item has-sub">
                             <a href="#" class='sidebar-link'>

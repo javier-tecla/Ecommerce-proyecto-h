@@ -196,6 +196,19 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Porcentaje de ordenes</h4>
+                </div>
+                <div class="card-body">
+                    <div id="chart3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const usuariosData = @json(array_values($usuarios_data));
         var options = {
@@ -239,5 +252,31 @@
         var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
 
         chart2.render();
+
+         
+        var options3 = {
+          series: [{{ $total_pedidos_nuevos }}, {{ $total_pedidos_enviados }}],
+          chart: {
+          width: 380,
+          type: 'pie',
+        },
+        labels: ['Pedidos Nuevo', 'Pedidos Enviados'],
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+        };
+
+        var chart3 = new ApexCharts(document.querySelector("#chart3"), options3);
+        chart3.render();
+      
+      
     </script>
 @endsection

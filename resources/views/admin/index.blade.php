@@ -183,6 +183,17 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Ordenes registrados por mes</h4>
+                </div>
+                <div class="card-body">
+                    <div id="chart2"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -206,5 +217,27 @@
         var chart = new ApexCharts(document.querySelector("#chart"), options);
 
         chart.render();
+
+
+        const ordenesData = @json(array_values($ordenesData));
+        var options2 = {
+            chart: {
+                type: 'bar',
+                zoom: {
+                    enabled: false
+                }
+            },
+            series: [{
+                name: 'sales',
+                data: usuariosData
+            }],
+            xaxis: {
+                categories: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+            }
+        }
+
+        var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+
+        chart2.render();
     </script>
 @endsection

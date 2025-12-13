@@ -36,24 +36,84 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-8">
-                    <div class="card">
-                        <div class="card-body">
-                            <form action="#" method="get">
-                                <div class="form-group">
-                                    <label for="name" class="form-label">Nombre del usuario</label>
-                                    <input type="text" name="name" id="name" class="form-control"
-                                        placeholder="Your Name" value="{{ $usuario->name }}">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="{{ url('/admin/usuarios/' . $usuario->id . '/update_perfil') }}"
+                                        method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="form-group">
+                                            <label for="name" class="form-label">Nombre del usuario</label>
+                                            <input type="text" name="name" id="name" class="form-control"
+                                                placeholder="Your Name" value="{{ $usuario->name }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="text" name="email" id="email" class="form-control"
+                                                placeholder="Your Email" value="{{ $usuario->email }}">
+                                        </div>
+                                        <br>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="text" name="email" id="email" class="form-control"
-                                        placeholder="Your Email" value="{{ $usuario->email }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Cambiar contraseña</h5>
                                 </div>
-                                <br>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                <div class="card-body">
+                                    <form action="{{ url('/admin/usuarios/' . $usuario->id . '/update_password') }}"
+                                        method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="form-group my-2">
+                                            <label for="current_password" class="form-label">Contraseña actual</label>
+                                            <input type="password" name="current_password" id="current_password"
+                                                class="form-control" placeholder="Ingrese su contraseña actual"
+                                                value="">
+                                            @error('current_password')
+                                                <div role="alert">
+                                                    <small style="color: red">{{ $message }}</small>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group my-2">
+                                            <label for="password" class="form-label">Nueva contraseña</label>
+                                            <input type="password" name="password" id="password" class="form-control"
+                                                placeholder="Introduzca nueva contraseña" value="">
+                                            @error('password')
+                                                <div role="alert">
+                                                    <small style="color: red">{{ $message }}</small>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group my-2">
+                                            <label for="password_confirmation" class="form-label">Confirmación de
+                                                contraseña</label>
+                                            <input type="password" name="password_confirmation" id="password_confirmation"
+                                                class="form-control" placeholder="Ingresar confirmar contraseña"
+                                                value="">
+                                            @error('password_confirmation')
+                                                <div role="alert">
+                                                    <small style="color: red">{{ $message }}</small>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <br>
+                                        <div class="form-group my-2 d-flex">
+                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

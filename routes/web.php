@@ -30,6 +30,7 @@ Route::get('/admin/usuarios', [App\Http\Controllers\UsuarioController::class, 'i
 Route::get('/admin/usuarios/create', [App\Http\Controllers\UsuarioController::class, 'create'])->name('admin.usuarios.create')->middleware('auth','can:Crear Usuario');
 Route::get('/admin/usuario/{id}/perfil', [App\Http\Controllers\UsuarioController::class, 'perfil'])->name('admin.usuarios.perfil')->middleware('auth','can:Ver Perfil');
 Route::put('/admin/usuarios/{id}/update_perfil', [App\Http\Controllers\UsuarioController::class, 'update_perfil'])->name('admin.usuarios.update_perfil')->middleware('auth','can:Actualizar Perfil');
+Route::put('/admin/usuarios/{id}/update_password', [App\Http\Controllers\UsuarioController::class, 'update_password'])->name('admin.usuarios.update_password')->middleware('auth','can:Actualizar Password');
 Route::post('/admin/usuarios/create', [App\Http\Controllers\UsuarioController::class, 'store'])->name('admin.usuarios.store')->middleware('auth','can:Guardar Usuario');
 Route::get('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::class, 'show'])->name('admin.usuarios.show')->middleware('auth','can:Ver detalle de Usuario');
 Route::get('/admin/usuario/{id}/edit', [App\Http\Controllers\UsuarioController::class, 'edit'])->name('admin.usuarios.edit')->middleware('auth','can:Editar Usuario');

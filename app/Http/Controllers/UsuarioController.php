@@ -42,6 +42,49 @@ class UsuarioController extends Controller
         return view('admin.usuarios.perfil',compact('usuario','ajuste'));
     }
 
+    public function update_perfil(Request $request, $id)
+    {
+        // return response()->json($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+        ]);
+
+        $usuario = User::find($id);
+        $usuario->name = $request->name;
+        $usuario->email = $request->email;
+        $usuario->save();
+
+        return redirect()->back()
+        ->with('mensaje', 'Cambios de perfil guardados exitosamente')
+        ->with('icono', 'success');
+    }
+
+    public function update_password(Request $request, $id)
+    {
+        // return response()->json($request->all());
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|string|min:8',
+            'password_confirmation' => 'required|min:8|same:password',
+        ], [
+            'password_confirmation.same' => 'Las contraseñas no coinciden.',
+        ]);
+
+        $usuario = User::find($id);
+        if (!password_verify($request->input('current_password'), $usuario->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'La contraseña actual es incorrecta.']);
+        }
+
+        $usuario->password = bcrypt($request->password);
+        $usuario->save();
+
+        return redirect()->back()
+        ->with('mensaje', 'Contraseña actualizada exitosamente')
+        ->with('icono', 'success');
+
+    }
+
     /**
      * Store a newly created resource in storage.
      */

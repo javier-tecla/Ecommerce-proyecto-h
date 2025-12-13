@@ -154,10 +154,6 @@
                                 </li>
 
                                 <li class="submenu-item">
-                                    <a href="account-security.html" class="submenu-link">Seguridad</a>
-                                </li>
-
-                                <li class="submenu-item">
                                     <a href="{{ route('logout') }}" class="submenu-link"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         Cerrar sesión</a>

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Categoria;
 use App\Models\Orden;
 use App\Models\Producto;
-use App\Models\Categoria;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
@@ -24,6 +24,22 @@ class AdminController extends Controller
         $total_pedidos_enviados = Orden::where('estado_orden', 'Enviado')->count();
         $total_pedidos = Orden::count();
 
-    return view('admin.index', compact('total_roles', 'total_usuarios', 'total_categorias', 'total_productos', 'total_pedidos_nuevos', 'total_pedidos_enviados', 'total_pedidos'));
+        $usuarios_mensuales = User::select(
+            DB::raw('MONTH(created_at) as mes'),
+            DB::raw('COUNT(*) as total')
+        )
+            ->groupBy('mes')
+            ->orderBy('mes')
+            ->get()
+            ->toArray();
+
+            $usuarios_data = array_fill(1, 12, 0);
+            foreach ($usuarios_mensuales as $data) {
+                $usuarios_data[$data['mes']] = $data['total'];
+            }
+
+            // print_r($usuarios_data);
+
+        return view('admin.index', compact('total_roles', 'total_usuarios', 'total_categorias', 'total_productos', 'total_pedidos_nuevos', 'total_pedidos_enviados', 'total_pedidos', 'usuarios_data'));
     }
 }

@@ -176,7 +176,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h4>Ventas del ultimo año</h4>
+                    <h4>Clientes registrados por mes</h4>
                 </div>
                 <div class="card-body">
                     <div id="chart"></div>
@@ -186,16 +186,20 @@
     </div>
 
     <script>
+        const usuariosData = @json(array_values($usuarios_data));
         var options = {
             chart: {
-                type: 'line'
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
             },
             series: [{
                 name: 'sales',
-                data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+                data: usuariosData
             }],
             xaxis: {
-                categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+                categories: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
             }
         }
 
